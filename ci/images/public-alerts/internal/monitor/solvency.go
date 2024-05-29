@@ -90,7 +90,9 @@ func FindAddress(addresses []Address, asset string) string {
 	// Iterate through the list of addresses
 	for _, address := range addresses {
 		// Check if the current address's chain matches the asset
-		if address.Chain == asset {
+		asset_chain := strings.Split(asset, ".")[0]
+
+		if address.Chain == asset_chain {
 			return address.Address
 		}
 	}
@@ -157,6 +159,7 @@ func checkSolvency(cfg config.Config, vaults []Vault, assetPrices map[string]flo
 
 	if len(insolvencies) > 0 {
 		for _, insolvency := range insolvencies {
+
 			msg := fmt.Sprintf("Insolvency detected for %s at %s", insolvency.Asset, insolvency.Address)
 			alertMsgs = append(alertMsgs, msg)
 		}

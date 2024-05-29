@@ -36,8 +36,7 @@ func main() {
 
 	// Solvency Monitor
 	solvencyMonitor := &monitor.SolvencyMonitor{}
-	// poll every 5 mins
-	monitor.Spawn(solvencyMonitor, alertQueue, 5*time.Minute)
+	monitor.Spawn(solvencyMonitor, alertQueue, 1*time.Minute)
 
 	// Invariant Monitor
 	invariantMonitor := monitor.NewInvariantsMonitor()
@@ -45,7 +44,19 @@ func main() {
 
 	// stuck outbound monitor
 	stuckOutboundMonitor := monitor.NewOutboundMonitor()
-	monitor.Spawn(stuckOutboundMonitor, alertQueue, 5*time.Minute)
+	monitor.Spawn(stuckOutboundMonitor, alertQueue, 10*time.Minute)
+
+	// Chain Update monitor
+	ChainUpdateMonitor := monitor.NewChainUpdateMonitor()
+	monitor.Spawn(ChainUpdateMonitor, alertQueue, 10*time.Minute)
+
+	// Image changes monitor
+	ImageChangesMonitor := monitor.NewImageChangeMonitor()
+	monitor.Spawn(ImageChangesMonitor, alertQueue, 10*time.Minute)
+
+	// Security Update monitor
+	SecurityUpdatesMonitor := monitor.NewSecurityUpdatesMonitor()
+	monitor.Spawn(SecurityUpdatesMonitor, alertQueue, 10*time.Minute)
 
 	// Spawn more monitors as needed...
 

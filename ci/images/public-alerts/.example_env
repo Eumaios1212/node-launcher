@@ -6,3 +6,4 @@ ENDPOINTS_THORNODE_RPC=https://rpc.ninerealms.com:443
 ENDPOINTS_MIDGARD_API=https://midgard.ninerealms.com
 ENDPOINTS_NINEREALMS_API=https://api.ninerealms.com
 ENDPOINTS_EXPLORER_URL=https://runescan.io
+DATA_DIR=./data

@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/rs/zerolog/log"
@@ -96,6 +97,55 @@ func NewStuckOutboundMonitorConfig() StuckOutboundMonitorConfig {
 	}
 }
 
+// ///////////////////////
+// ChainUpdateMonitorConfig
+// ///////////////////////
+type DaemonConfig struct {
+	Name      string
+	Github    string
+	LatestTag string
+}
+
+type ChainUpdateMonitorConfig struct {
+	Daemons map[string]DaemonConfig
+	DataDir string
+}
+
+func NewChainUpdateMonitorConfig() ChainUpdateMonitorConfig {
+
+	dataDir := os.Getenv("DATA_DIR")
+	if dataDir == "" {
+		dataDir = "./data"
+	}
+
+	daemons := map[string]DaemonConfig{
+		"binance-smart": {"binance-smart", "bnb-chain/bsc", ""},
+		"bitcoin":       {"bitcoin", "bitcoin/bitcoin", ""},
+		"bitcoin-cash":  {"bitcoin-cash", "bitcoin-cash-node/bitcoin-cash-node", ""},
+		"dogecoin":      {"dogecoin", "dogecoin/dogecoin", ""},
+		"ethereum":      {"ethereum", "ethereum/go-ethereum", ""},
+		"gaia":          {"gaia", "cosmos/gaia", ""},
+		"litecoin":      {"litecoin", "litecoin-project/litecoin", ""},
+		"avalanche":     {"avalanche", "ava-labs/avalanchego", ""},
+		"prysm":         {"prysm", "prysmaticlabs/prysm", ""},
+	}
+
+	return ChainUpdateMonitorConfig{DataDir: dataDir, Daemons: daemons}
+}
+
+/////////////////////////
+// SecurityUpdatesConfig
+/////////////////////////
+
+type SecurityUpdatesMonitorConfig struct {
+	Repos []string
+}
+
+func NewSecurityUpdatesMonitorConfig() SecurityUpdatesMonitorConfig {
+
+	return SecurityUpdatesMonitorConfig{Repos: []string{"bnb-chain/tss-lib"}}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Configuration
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,9 +172,11 @@ type Config struct {
 		Errors   Webhooks `mapstructure:"errors"`
 	} `mapstructure:"webhooks"`
 	// each monitor can have its own configuration params
-	ChainLagMonitor      ChainLagMonitorConfig
-	SolvencyMonitor      SolvencyMonitorConfig
-	StuckOutboundMonitor StuckOutboundMonitorConfig
+	ChainLagMonitor        ChainLagMonitorConfig
+	SolvencyMonitor        SolvencyMonitorConfig
+	StuckOutboundMonitor   StuckOutboundMonitorConfig
+	ChainUpdateMonitor     ChainUpdateMonitorConfig
+	SecurityUpdatesMonitor SecurityUpdatesMonitorConfig
 }
 
 // //////////////////////////////////////////////////////////////////////////////
@@ -147,15 +199,22 @@ func init() {
 	config.ChainLagMonitor = NewChainLagMonitorConfig()
 	config.SolvencyMonitor = NewSolvencyMonitorConfig()
 	config.StuckOutboundMonitor = NewStuckOutboundMonitorConfig()
+	config.ChainUpdateMonitor = NewChainUpdateMonitorConfig()
+	config.SecurityUpdatesMonitor = NewSecurityUpdatesMonitorConfig()
 
+	// endpoints
 	assert(viper.BindEnv("endpoints.thornode_api", "ENDPOINTS_THORNODE_API"))
 	assert(viper.BindEnv("endpoints.thornode_rpc", "ENDPOINTS_THORNODE_RPC"))
 	assert(viper.BindEnv("endpoints.ninerealms_api", "ENDPOINTS_NINEREALMS_API"))
 	assert(viper.BindEnv("endpoints.midgard_api", "ENDPOINTS_MIDGARD_API"))
-	// EXPLORER_URL = "https://runescan.io/tx"
 	assert(viper.BindEnv("endpoints.explorer_url", "ENDPOINTS_EXPLORER_URL"))
+	// webhooks - activity
 	assert(viper.BindEnv("webhooks.activity.slack", "WEBHOOKS_ACTIVITY_SLACK"))
 	assert(viper.BindEnv("webhooks.activity.discord", "WEBHOOKS_ACTIVITY_DISCORD"))
+	// webhooks - security
+	assert(viper.BindEnv("webhooks.security.slack", "WEBHOOKS_ACTIVITY_SLACK"))
+	assert(viper.BindEnv("webhooks.security.discord", "WEBHOOKS_ACTIVITY_DISCORD"))
+	// webhooks - errors
 	assert(viper.BindEnv("webhooks.errors.slack", "WEBHOOKS_ERRORS_SLACK"))
 
 	// Unmarshal the configuration into the config struct

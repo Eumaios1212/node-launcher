@@ -31,11 +31,10 @@ WORKDIR /home/app
 
 # Copy the binary from the builder stage to the accessible directory
 COPY --from=builder /app/alert .
-
+# TODO: switch to volume in provider 
+RUN mkdir data 
 # Switch to non-root user
 USER app
-
-# TODO: add way to load env vars.
 
 # Set the binary as the entrypoint of the container
 ENTRYPOINT ["./alert"]
