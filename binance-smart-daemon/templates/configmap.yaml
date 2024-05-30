@@ -15,16 +15,9 @@ data:
     args+=('--http.vhosts=*')
     args+=('--datadir=data')
     args+=('--config=config/config.toml')
-    args+=('--history.transactions=0')
-    args+=('--cache=24000')
-    args+=('--cache.blocklogs=8000')
-    args+=('--triesInMemory=1024')
+    args+=('--history.transactions=90000')
     args+=('--syncmode=full')
-    args+=('--pruneancient')
-    args+=('--tries-verify-mode=local')
-
-    # add config if snapshot uses pebble db engine
-    cat /home/bsc/data/geth/chaindata/OPTIONS-* | grep pebble && args+=('--db.engine=pebble')
+    args+=('--tries-verify-mode=none')
 
     echo "${args[@]}"
     geth "${args[@]}"
@@ -42,7 +35,7 @@ data:
       rm -f *.lz4
       rm -f *.zst
       rm -rf server
-      rm -rf geth.full
+      rm -rf geth.*
       chown -R 1000:1000 /home/bsc/data/geth
       chmod -R +x /home/bsc/data/geth
       exit 0
@@ -53,7 +46,7 @@ data:
 
     # download snapshot
     snapshotMD=https://raw.githubusercontent.com/48Club/bsc-snapshots/main/README.md
-    snapshotURL=$(curl -sL "$snapshotMD" | grep -Eo 'https:\/\/[a-zA-Z0-9.\/]+geth\.full\.[a-zA-Z0-9.]+')
+    snapshotURL=$(curl -sL "$snapshotMD" | grep -Eo 'https:\/\/[a-zA-Z0-9.\/]+geth\.fast\.[a-zA-Z0-9.]+')
     aria2c --continue --split=14 --max-connection-per-server=14 \
         --min-split-size=100M --out=snapshot.tar.zst "$snapshotURL"
 
@@ -65,7 +58,7 @@ data:
     rm -f *.lz4
     rm -f *.zst
     rm -rf server
-    rm -rf geth.full
+    rm -rf geth.*
     chown -R 1000:1000 /home/bsc/data/geth
     chmod -R +x /home/bsc/data/geth
 
