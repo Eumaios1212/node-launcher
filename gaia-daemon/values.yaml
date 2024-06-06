@@ -8,8 +8,8 @@ replicaCount: 1
 
 image:
   name: registry.gitlab.com/thorchain/devops/node-launcher
-  tag: gaia-daemon-17.1.0
-  hash: afeb2d14fbb689cabb74f14eaf183c239865eed83dc771b8f95a788e35a7f63a
+  tag: gaia-daemon-17.2.0
+  hash: 58f2507a62852773cb727cad006cb449f32e5dd54c95c0a029a1991b118d1d7a
 
 flags:
 # Manually pass known good peers from somewhere like: https://polkachu.com/live_peers/cosmos
