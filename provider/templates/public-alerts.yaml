@@ -27,6 +27,7 @@ spec:
       containers:
         - name: public-alerts
           image: {{ .Values.publicAlerts.image.name }}:{{ .Values.publicAlerts.image.tag }}@sha256:{{ .Values.publicAlerts.image.hash }}
+          imagePullPolicy: IfNotPresent
           env:
             {{- range $key, $value := .Values.publicAlerts.env }}
             - name: {{ $key }}

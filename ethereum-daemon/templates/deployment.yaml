@@ -38,6 +38,7 @@ spec:
       {{- else }}
         - name: init-beacon
           image: alpine:{{ .Values.global.images.alpine.tag }}@sha256:{{ .Values.global.images.alpine.hash }}
+          imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: data
               mountPath: /data
@@ -100,6 +101,7 @@ spec:
 
         - name: {{ .Chart.Name }}-beacon
           image: {{ .Values.image.prysm.name }}:{{ .Values.image.prysm.tag }}@sha256:{{ .Values.image.prysm.hash }}
+          imagePullPolicy: IfNotPresent
           command:
             - /app/cmd/beacon-chain/beacon-chain
             - --datadir=/data/beacon

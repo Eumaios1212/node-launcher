@@ -52,6 +52,7 @@ spec:
           containers:
             - name: autoupdate
               image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
+              imagePullPolicy: IfNotPresent
               command:
                 - /scripts/auto-update.sh
               volumeMounts:

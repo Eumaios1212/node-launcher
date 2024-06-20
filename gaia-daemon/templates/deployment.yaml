@@ -32,6 +32,7 @@ spec:
       initContainers:
       - name: init
         image: alpine:{{ .Values.global.images.alpine.tag }}@sha256:{{ .Values.global.images.alpine.hash }}
+        imagePullPolicy: IfNotPresent
         command:
           - /scripts/init.sh
         volumeMounts:

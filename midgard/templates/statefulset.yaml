@@ -31,12 +31,15 @@ spec:
       initContainers:
         - name: init-database
           image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+          imagePullPolicy: IfNotPresent
           command: ['sh', '-c', "export INDEX=${HOSTNAME##*-}; until nc -zv {{ include "midgard.fullname" . }}-timescaledb-$INDEX.{{ include "midgard.fullname" . }}-timescaledb:{{ .Values.postgres.port }}; do echo waiting for timescale database; sleep 2; done"]
         - name: init-thor
           image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
+          imagePullPolicy: IfNotPresent
           command: ['sh', '-c', "until nc -zv {{ .Values.thorApi }}; do echo waiting for thornode; sleep 2; done"]
         - name: init-genesis
           image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
+          imagePullPolicy: IfNotPresent
           command:
             - /init-genesis.sh
           volumeMounts:
