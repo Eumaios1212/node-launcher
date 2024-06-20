@@ -36,8 +36,6 @@ data:
       rm -f *.zst
       rm -rf server
       rm -rf geth.*
-      chown -R 1000:1000 /home/bsc/data/geth
-      chmod -R +x /home/bsc/data/geth
       exit 0
     fi
 
@@ -59,8 +57,9 @@ data:
     rm -f *.zst
     rm -rf server
     rm -rf geth.*
+
+    # update owner from unarchive to match runtime user
     chown -R 1000:1000 /home/bsc/data/geth
-    chmod -R +x /home/bsc/data/geth
 
   probe.sh: |
     #!/bin/sh
