@@ -7,3 +7,7 @@ ENDPOINTS_MIDGARD_API=https://midgard.ninerealms.com
 ENDPOINTS_NINEREALMS_API=https://api.ninerealms.com
 ENDPOINTS_EXPLORER_URL=https://runescan.io
 DATA_DIR=./data
+BITCOIN_DAEMON_URL=https://bitcoin.ninerealms.com
+BITCOIN_CASH_DAEMON_URL=https://bitcoin-cash.ninerealms.com
+DOGECOIN_DAEMON_URL=https://dogecoin.ninerealms.com
+LITECOIN_DAEMON_URL=https://litecoin.ninerealms.com

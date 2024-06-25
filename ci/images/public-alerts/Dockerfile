@@ -31,8 +31,7 @@ WORKDIR /home/app
 
 # Copy the binary from the builder stage to the accessible directory
 COPY --from=builder /app/alert .
-# TODO: switch to volume in provider 
-RUN mkdir data 
+
 # Switch to non-root user
 USER app
 

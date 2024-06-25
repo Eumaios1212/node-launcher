@@ -18,6 +18,9 @@ type ThornodeDataFetcher interface {
 	GetNodes() ([]openapi.Node, error)
 	GetInvariants() ([]string, error)
 	GetInvariant(invariant string) (*openapi.InvariantResponse, error)
+	GetMimirs() ([]map[string]interface{}, error)
+	GetPools() ([]openapi.Pool, error)
+	GetDerivedPools() ([]openapi.Pool, error)
 }
 
 // thornodeClient implements the ThornodeDataFetcher interface using Thornode's HTTP and RPC endpoints.
@@ -98,4 +101,50 @@ func (c *thornodeClient) GetInvariant(invariant string) (*openapi.InvariantRespo
 		return nil, fmt.Errorf("error decoding JSON: %w", err)
 	}
 	return &response, nil
+}
+
+// GetMimirs retrieves the mimir settings from the Thornode network.
+// TODO: update to openapi mimir type when v2 API lands
+func (c *thornodeClient) GetMimirs() ([]map[string]interface{}, error) {
+	resp, err := c.httpClient.Get(fmt.Sprintf("%s/thorchain/mimir", c.baseURL))
+	if err != nil {
+		return nil, fmt.Errorf("error making request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	var mimirs []map[string]interface{}
+	if err := json.NewDecoder(resp.Body).Decode(&mimirs); err != nil {
+		return nil, fmt.Errorf("error decoding JSON: %w", err)
+	}
+	return mimirs, nil
+}
+
+// GetPools retrieves the pool information from the Thornode network.
+func (c *thornodeClient) GetPools() ([]openapi.Pool, error) {
+	resp, err := c.httpClient.Get(fmt.Sprintf("%s/thorchain/pools", c.baseURL))
+	if err != nil {
+		return nil, fmt.Errorf("error making request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	var pools []openapi.Pool
+	if err := json.NewDecoder(resp.Body).Decode(&pools); err != nil {
+		return nil, fmt.Errorf("error decoding JSON: %w", err)
+	}
+	return pools, nil
+}
+
+// GetPools retrieves the pool information from the Thornode network.
+func (c *thornodeClient) GetDerivedPools() ([]openapi.Pool, error) {
+	resp, err := c.httpClient.Get(fmt.Sprintf("%s/thorchain/dpools", c.baseURL))
+	if err != nil {
+		return nil, fmt.Errorf("error making request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	var pools []openapi.Pool
+	if err := json.NewDecoder(resp.Body).Decode(&pools); err != nil {
+		return nil, fmt.Errorf("error decoding JSON: %w", err)
+	}
+	return pools, nil
 }

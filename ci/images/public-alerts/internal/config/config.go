@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"os"
+
 	"strings"
 
 	"github.com/rs/zerolog/log"
@@ -111,13 +111,15 @@ type ChainUpdateMonitorConfig struct {
 	DataDir string
 }
 
+func (c ChainUpdateMonitorConfig) Validate() error {
+	// TODO: Implement validation
+
+	return nil
+}
+
 func NewChainUpdateMonitorConfig() ChainUpdateMonitorConfig {
 
-	dataDir := os.Getenv("DATA_DIR")
-	if dataDir == "" {
-		dataDir = "./data"
-	}
-
+	// Define the daemons map
 	daemons := map[string]DaemonConfig{
 		"binance-smart": {"binance-smart", "bnb-chain/bsc", ""},
 		"bitcoin":       {"bitcoin", "bitcoin/bitcoin", ""},
@@ -130,7 +132,7 @@ func NewChainUpdateMonitorConfig() ChainUpdateMonitorConfig {
 		"prysm":         {"prysm", "prysmaticlabs/prysm", ""},
 	}
 
-	return ChainUpdateMonitorConfig{DataDir: dataDir, Daemons: daemons}
+	return ChainUpdateMonitorConfig{DataDir: viper.GetString("dataDir"), Daemons: daemons}
 }
 
 /////////////////////////
@@ -141,9 +143,103 @@ type SecurityUpdatesMonitorConfig struct {
 	Repos []string
 }
 
+func (sup SecurityUpdatesMonitorConfig) Validate() error {
+	// TODO: Implement validation
+
+	return nil
+}
+
 func NewSecurityUpdatesMonitorConfig() SecurityUpdatesMonitorConfig {
 
 	return SecurityUpdatesMonitorConfig{Repos: []string{"bnb-chain/tss-lib"}}
+}
+
+/////////////////////////
+// TorManipulationMonitorConfig
+/////////////////////////
+
+type TorManipulationMonitorConfig struct {
+	AlertCooldownSeconds   int // period of time before alert will fire agian, prevent spam
+	TorPriceDeltaThreshold int // Percentage,value of 5 = 5%
+}
+
+func (tmm TorManipulationMonitorConfig) Validate() error {
+	// TODO: Implement validation
+
+	return nil
+}
+
+func NewTorManipulationMonitorConfig() TorManipulationMonitorConfig {
+
+	return TorManipulationMonitorConfig{
+		AlertCooldownSeconds:   60 * 60 * 2, // 2 hours
+		TorPriceDeltaThreshold: 5,           // 5%
+	}
+}
+
+/////////////////////////
+// UtxoMempoolMonitorConfig
+/////////////////////////
+
+type UtxoMempoolMonitorConfig struct {
+	ChainDaemonURLs    map[string]string `yaml:"chain_daemon_urls"`
+	Chains             []string          `yaml:"chains"`
+	AlertSizeThreshold map[string]int    `yaml:"alert_size_threshold"`
+	AlertFactor        float64           `yaml:"alert_factor"`
+	AlertWindow        int               `yaml:"alert_window"`
+	AlertObservations  int               `yaml:"alert_observations"`
+}
+
+func (c UtxoMempoolMonitorConfig) Validate() error {
+	if len(c.Chains) == 0 {
+		return fmt.Errorf("at least one chain must be specified")
+	}
+
+	if c.AlertFactor <= 0 {
+		return fmt.Errorf("alert_factor must be greater than 0")
+	}
+
+	if c.AlertWindow <= 0 {
+		return fmt.Errorf("alert_window must be greater than 0")
+	}
+
+	if c.AlertObservations <= 0 {
+		return fmt.Errorf("alert_observations must be greater than 0")
+	}
+
+	for _, chain := range c.Chains {
+		if _, ok := c.AlertSizeThreshold[chain]; !ok {
+			return fmt.Errorf("alert_size_threshold for chain %s is not specified", chain)
+		}
+	}
+
+	return nil
+}
+
+func NewUtxoMempoolMonitorConfig() UtxoMempoolMonitorConfig {
+	return UtxoMempoolMonitorConfig{
+		ChainDaemonURLs: map[string]string{
+			"bitcoin":      viper.GetString("BITCOIN_DAEMON_URL"),
+			"bitcoin-cash": viper.GetString("BITCOIN_CASH_DAEMON_URL"),
+			"dogecoin":     viper.GetString("DOGECOIN_DAEMON_URL"),
+			"litecoin":     viper.GetString("LITECOIN_DAEMON_URL"),
+		},
+		Chains: []string{
+			"bitcoin",
+			"bitcoin-cash",
+			"dogecoin",
+			"litecoin",
+		},
+		AlertSizeThreshold: map[string]int{
+			"bitcoin":      5000000,
+			"bitcoin-cash": 32000000,
+			"dogecoin":     3000000,
+			"litecoin":     10000000,
+		},
+		AlertFactor:       5,
+		AlertWindow:       60,
+		AlertObservations: 5,
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,6 +273,8 @@ type Config struct {
 	StuckOutboundMonitor   StuckOutboundMonitorConfig
 	ChainUpdateMonitor     ChainUpdateMonitorConfig
 	SecurityUpdatesMonitor SecurityUpdatesMonitorConfig
+	TorManipulationMonitor TorManipulationMonitorConfig
+	UtxoMempoolMonitor     UtxoMempoolMonitorConfig
 }
 
 // //////////////////////////////////////////////////////////////////////////////
@@ -194,6 +292,9 @@ func init() {
 
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
+	// data dir
+	viper.SetDefault("dataDir", "/data")
+	assert(viper.BindEnv("dataDir", "DATA_DIR"))
 
 	// Initialize ChainLagMonitor with hardcoded values
 	config.ChainLagMonitor = NewChainLagMonitorConfig()
@@ -201,6 +302,9 @@ func init() {
 	config.StuckOutboundMonitor = NewStuckOutboundMonitorConfig()
 	config.ChainUpdateMonitor = NewChainUpdateMonitorConfig()
 	config.SecurityUpdatesMonitor = NewSecurityUpdatesMonitorConfig()
+	config.TorManipulationMonitor = NewTorManipulationMonitorConfig()
+	config.UtxoMempoolMonitor = NewUtxoMempoolMonitorConfig()
+	// TODO - validate each monitor configuration
 
 	// endpoints
 	assert(viper.BindEnv("endpoints.thornode_api", "ENDPOINTS_THORNODE_API"))

@@ -75,6 +75,8 @@ publicAlerts:
     # WEBHOOKS_SECURITY_SLACK: slack-webhook-security
     # WEBHOOKS_SECURITY_PAGERDUTY: pagerduty-webhook-thorsec
     # WEBHOOKS_ERRORS_SLACK: slack-webhook-public-alert-errors
+  pvc:
+    size: 1Gi
 
 midgardBlockstore:
   enabled: true

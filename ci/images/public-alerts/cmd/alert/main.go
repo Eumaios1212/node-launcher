@@ -58,6 +58,14 @@ func main() {
 	SecurityUpdatesMonitor := monitor.NewSecurityUpdatesMonitor()
 	monitor.Spawn(SecurityUpdatesMonitor, alertQueue, 10*time.Minute)
 
+	// Tor Manipulation monitor
+	torManipulationMonitor := monitor.NewTorManipulationMonitor()
+	monitor.Spawn(torManipulationMonitor, alertQueue, 2*time.Minute)
+
+	// UTXO Mempool monitor
+	utxoMempoolMonitor := monitor.NewMempoolMonitor()
+	monitor.Spawn(utxoMempoolMonitor, alertQueue, 1*time.Minute)
+
 	// Spawn more monitors as needed...
 
 	for alert := range alertQueue {

@@ -33,7 +33,7 @@ type Image struct {
 // keep track of images that have been observed
 var (
 	seen         = make(map[string]string)
-	IMAGE_FILTER = regexp.MustCompile(`^thorchain/((devops/node-launcher.*)|(thornode:(chaosnet-multichain|mainnet)-\d+\.\d+\.\d+)|(midgard:\d+\.\d+\.\d+))$`)
+	IMAGE_FILTER = regexp.MustCompile(`^thorchain/((devops/node-launcher.*)|(thornode:mainnet-\d+\.\d+\.\d+)|(midgard:\d+\.\d+\.\d+))$`)
 )
 
 // //////////////////////////////////////////////////////////////////////////////
