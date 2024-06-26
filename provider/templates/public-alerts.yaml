@@ -24,6 +24,8 @@ spec:
       labels:
         app: public-alerts
     spec:
+      securityContext:
+        fsGroup: 101  # matches image user
       containers:
         - name: public-alerts
           image: {{ .Values.publicAlerts.image.name }}:{{ .Values.publicAlerts.image.tag }}@sha256:{{ .Values.publicAlerts.image.hash }}
@@ -54,7 +56,4 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: public-alerts
-            
-          
 {{- end }}
-
