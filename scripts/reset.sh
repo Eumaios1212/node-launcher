@@ -31,7 +31,7 @@ case ${SERVICE} in
   midgard-blockstore)
     kubectl scale -n "${NAME}" --replicas=0 sts/midgard --timeout=5m
     kubectl wait --for=delete pods midgard-0 -n "${NAME}" --timeout=5m >/dev/null 2>&1 || true
-    kubectl run -n "${NAME}" -it reset-midgard --rm --restart=Never --image=busybox --overrides='{"apiVersion": "v1", "spec": {"containers": [{"command": ["rm", "-rf", "/blockstore/*"], "name": "reset-midgard", "stdin": true, "stdinOnce": true, "tty": true, "image": "busybox", "volumeMounts": [{"mountPath": "/blockstore", "name":"blockstore"}]}], "volumes": [{"name": "blockstore", "persistentVolumeClaim": {"claimName": "blockstore-midgard-0"}}]}}'
+    kubectl run -n "${NAME}" -it reset-midgard --rm --restart=Never --image=busybox --overrides='{"apiVersion": "v1", "spec": {"containers": [{"command": ["sh", "-c", "rm -rf /blockstore/*"], "name": "reset-midgard", "stdin": true, "stdinOnce": true, "tty": true, "image": "busybox", "volumeMounts": [{"mountPath": "/blockstore", "name":"blockstore"}]}], "volumes": [{"name": "blockstore", "persistentVolumeClaim": {"claimName": "blockstore-midgard-0"}}]}}'
     kubectl scale -n "${NAME}" --replicas=1 sts/midgard --timeout=5m
     kubectl delete -n "${NAME}" pod -l app.kubernetes.io/name=midgard
     ;;
