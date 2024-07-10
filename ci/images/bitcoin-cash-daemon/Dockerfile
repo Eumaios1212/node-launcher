@@ -5,7 +5,7 @@ WORKDIR /work
 RUN apt-get update \
   && apt-get -y install --no-install-recommends wget ca-certificates gnupg
 
-ENV BITCOIN_SHA256=2ab81515a763162435f7ea28bb1f10f69b6143f469278fc52c0b8cbaec6cf238
+ENV BITCOIN_SHA256=0dcc387cbaa3a039c97ddc8fb99c1fa7bff5dc6e4bd3a01d3c3095f595ad2dce
 COPY version /version
 
 # trunk-ignore(hadolint/DL4006): sh does not support -o pipefail
