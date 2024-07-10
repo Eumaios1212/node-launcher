@@ -15,6 +15,30 @@ minio:
       tag: 1.25.3-alpine
       hash: 2d2a2257c6e9d2e5b50d4fbeb436d8d2b55631c2a89935a425b417eb95212686
 
+events:
+  enabled: true
+
+  image:
+    name: registry.gitlab.com/thorchain/thornode
+    tag: events
+    hash: 23fd5a0de883e78d86ee3cd8eaca183dfd38b887fdaaa51df579dc9fbbd7d80c
+
+  pvc:
+    size: 1Gi
+
+  env:
+    STORAGE_PATH: /data
+
+  # mappings for environment variable to the secret key in the "provider" secret
+  secretEnv:
+    {}
+    # PAGERDUTY_ROUTING_KEY: pagerduty-routing-key
+    # NOTIFICATIONS_ACTIVITY_DISCORD: discord-webhook-mainnet-activity
+    # NOTIFICATIONS_INFO_DISCORD: discord-webhook-mainnet-info
+    # NOTIFICATIONS_LENDING_DISCORD: discord-webhook-lending-info
+    # NOTIFICATIONS_SECURITY_DISCORD: discord-webhook-thorsec
+    # NOTIFICATIONS_RESCHEDULES_DISCORD: discord-webhook-mainnet-reschedules
+
 # trunk-ignore-all(gitleaks/discord-client-secret): false positives triggered below
 
 thornodeSnapshot:
@@ -46,6 +70,7 @@ thornodeSnapshot:
 
   # mappings for environment variable to the secret key in the "provider" secret
   secretEnv:
+    {}
     # DISCORD_WEBHOOK_MAINNET_INFO: discord-webhook-mainnet-info
 
   # default to mon/thurs schedule
@@ -68,6 +93,7 @@ publicAlerts:
 
   # mappings for environment variable to the secret key in the "provider" secret
   secretEnv:
+    {}
     # WEBHOOKS_ACTIVITY_DISCORD: discord-webhook-mainnet-activity
     # WEBHOOKS_INFO_DISCORD: discord-webhook-mainnet-info
     # WEBHOOKS_UPDATES_DISCORD: discord-webhook-chain-updates
