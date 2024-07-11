@@ -13,9 +13,10 @@ ENV PACKAGES="curl make git libc-dev bash file gcc linux-headers eudev-dev pytho
 RUN apk add --no-cache $PACKAGES
 
 ARG SRC_COMMIT=58b4e54a95c7fc6a64272ccd0f09f46213c005ad
-RUN git init && \
+RUN VERSION="$(sed 's/-.*//' /version)" && \
+  git init && \
   git remote add origin https://github.com/cosmos/gaia && \
-  git fetch --depth 1 origin "v$(cat /version)" && \
+  git fetch --depth 1 origin "v${VERSION}" && \
   git checkout $SRC_COMMIT
 
 # See https://github.com/CosmWasm/wasmvm/releases
