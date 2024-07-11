@@ -21,3 +21,7 @@ if ! kubectl -n "$NAME" get pvc "$SERVICE" >/dev/null 2>&1; then
 fi
 
 make_backup "$SERVICE"
+
+echo
+warn "If you plan to restore this backup to a fresh install, see more detailed instructions:"
+echo https://gitlab.com/thorchain/devops/node-launcher/-/blob/master/docs/Restore-Validator-Backup.md?ref_type=heads

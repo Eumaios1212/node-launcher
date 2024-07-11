@@ -311,11 +311,7 @@ get_thornode_image() {
   )
 }
 
-create_mnemonic() {
-  local mnemonic
-  local image
-  # Do nothing if mnemonic already exists.
-  kubectl -n "$NAME" get secrets/thornode-mnemonic >/dev/null 2>&1 && return
+generate_mnemonic() {
   image=$(get_thornode_image)
   echo "=> Generating THORNode Mnemonic phrase using image $image"
   kubectl -n "$NAME" run mnemonic --image="$image" --restart=Never --command -- /bin/sh -c 'tail -F /dev/null'
@@ -325,6 +321,30 @@ create_mnemonic() {
   kubectl -n "$NAME" create secret generic thornode-mnemonic --from-literal=mnemonic="$mnemonic"
   kubectl -n "$NAME" delete pod --now=true mnemonic
   echo
+}
+
+create_mnemonic() {
+  local mnemonic
+  local image
+  # Do nothing if mnemonic already exists.
+  kubectl -n "${NAME}" get secrets/thornode-mnemonic >/dev/null 2>&1 && return
+
+  echo "=> Setting THORNode Mnemonic phrase"
+  read -r -s -p "Enter mnemonic (empty to generate): " mnemonic
+  echo
+
+  # generate mnemonic if empty
+  if [[ ${mnemonic} == "" ]]; then
+    generate_mnemonic
+    return
+  fi
+
+  # validate mnemonic
+  read -r -s -p "Confirm mnemonic: " mnemonicconf
+  echo
+  [[ ${mnemonic} != "${mnemonicconf}" ]] && die "Mnemonics mismatch"
+
+  kubectl -n "${NAME}" create secret generic thornode-mnemonic --from-literal=mnemonic="${mnemonic}"
 }
 
 create_password() {
