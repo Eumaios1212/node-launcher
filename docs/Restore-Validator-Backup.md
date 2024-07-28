@@ -27,6 +27,6 @@ NAME=node2 TYPE=validator NET=mainnet make install
 4. Restore the backups.
 
 ```bash
-NAME=node2 TYPE=validator NET=mainnet SERVICE=thornode make restore
-NAME=node2 TYPE=validator NET=mainnet SERVICE=bifrost make restore
+NAME=node2 TYPE=validator NET=mainnet SERVICE=thornode make restore-backup
+NAME=node2 TYPE=validator NET=mainnet SERVICE=bifrost make restore-backup
 ```
