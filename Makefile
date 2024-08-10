@@ -100,7 +100,7 @@ export-state: ## Export chain state
 	@./scripts/export-state.sh
 
 hard-fork: ## Hard fork chain
-	@HARDFORK_BLOCK_HEIGHT=4786559 NEW_GENESIS_TIME='2022-03-22T01:38:16.219785087Z' CHAIN_ID='thorchain-mainnet-v1' IMAGE='registry.gitlab.com/thorchain/thornode:chaosnet-multichain-0.81.4' ./scripts/hard-fork.sh
+	@./scripts/hard-fork.sh
 
 shell: ## Open a shell for a selected THORNode service
 	@./scripts/shell.sh
