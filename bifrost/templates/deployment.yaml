@@ -101,8 +101,6 @@ spec:
               value: {{ include "bifrost.bitcoinCashDaemon" . }}
             - name: DOGE_HOST
               value: {{ include "bifrost.dogecoinDaemon" . }}
-            - name: TERRA_HOST
-              value: {{ include "bifrost.terraDaemon" . }}
             - name: GAIA_HOST
               value: {{ include "bifrost.gaiaDaemon" . }}
             - name: GAIA_GRPC_HOST
@@ -117,10 +115,6 @@ spec:
             {{- end}}
             {{- if not .Values.dogecoinDaemon.enabled }}
             - name: DOGE_DISABLED
-              value: "true"
-            {{- end}}
-            {{- if not .Values.terraDaemon.enabled }}
-            - name: TERRA_DISABLED
               value: "true"
             {{- end}}
             {{- if not .Values.gaiaDaemon.enabled }}
