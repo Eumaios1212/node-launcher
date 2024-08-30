@@ -24,7 +24,28 @@ data:
       "thorchain": {
         "tendermint_url": "http://{{ include "midgard.thorDaemon" . }}/websocket",
         "thornode_url": "http://{{ .Values.thorApi }}/thorchain",
-        "last_chain_backoff": "7s"
+        "last_chain_backoff": "7s",
+        "fork_infos": [
+          {
+            "chain_id": "thorchain",
+            "earliest_block_hash": "7D37DEF6E1BE23C912092069325C4A51E66B9EF7DDBDE004FF730CFABC0307B1",
+            "earliest_block_height": 1,
+            "hard_fork_height": 4786559
+          },
+          {
+            "chain_id": "thorchain-mainnet-v1",
+            "parent_chain_id": "thorchain",
+            "earliest_block_hash": "9B86543A5CF5E26E3CE93C8349B2EABE5E238DFFC9EBE8EC6207FE7178FF27AC",
+            "earliest_block_height": 4786560,
+            "hard_fork_height": 17562000
+          },
+          {
+            "chain_id": "thorchain-1",
+            "parent_chain_id": "thorchain-mainnet-v1",
+            "earliest_block_hash": "9B86543A5CF5E26E3CE93C8349B2EABE5E238DFFC9EBE8EC6207FE7178FF27AC",
+            "earliest_block_height": 17562001
+          }
+        ]
       },
       "timescale": {
         "host": "HOST_TIMESCALEDB",
@@ -1793,3 +1814,5 @@ data:
     acf823bc7990bcb261f373b9a033a5ce569ba01883741a5edb6ebed61e1a6b44  000017430000
     91d7b51422d5d9f7d9ac5145dcfc5e59591cff7d15c9b14021244b92fbdcba5c  000017440000
     775cac812dbf67362f35373320ffe605b1b130ea0a8042971ab21d5af9056a43  000017450000
+    0f723a25b2a906cf05ec1521c0a4f9bcc2d617c33dde9676d7db5adc972b3cfd  000017460000
+    ca3346383b27a2edb2b8055820546adefabd73e6198f7676d2087d9fa04ef846  000017470000

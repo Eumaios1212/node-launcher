@@ -1,9 +1,9 @@
 global:
-  tag: mainnet-1.134.0
-  hash: 85114e72d998372877c015d3907ee0f50dd4851b692b875fe5265a910ecb0098
+  tag: mainnet-1.134.1
+  hash: cc5b38cf3ca5d4574bd6a7dfeca7f6965871d16d5a18b3459e5fef40046df83c
 
 thornode:
-  haltHeight:
+  haltHeight: "17562000"
   statesync:
     auto: false
     snapshotInterval: 0
