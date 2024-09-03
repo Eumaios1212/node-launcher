@@ -31,8 +31,8 @@ env:
 
 thorApi: thornode:1317
 chainID:
-  mainnet: thorchain-mainnet-v1
-  stagenet: thorchain-stagenet-v2
+  mainnet: thorchain-1
+  stagenet: thorchain-stagenet-2
 
 thorDaemon:
   mainnet: thornode:27147
