@@ -48,7 +48,7 @@ check-image-digests:
   services:
     - docker:20.10.12-dind
   before_script:
-    - apk add py3-pip jq curl
+    - apk add py3-pip jq curl bash
     - pip3 install yq
   script:
     - ./scripts/check-thornode-images.sh

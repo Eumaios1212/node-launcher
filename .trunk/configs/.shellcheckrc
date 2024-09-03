@@ -7,3 +7,6 @@ disable=SC2154
 # disable=SC1091
 
 disable=SC2086
+
+# Disable: Prefer putting braces around variable references even when not strictly required.
+disable=SC2250
