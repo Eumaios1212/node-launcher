@@ -316,8 +316,8 @@ generate_mnemonic() {
   echo "=> Generating THORNode Mnemonic phrase using image $image"
   kubectl -n "$NAME" run mnemonic --image="$image" --restart=Never --command -- /bin/sh -c 'tail -F /dev/null'
   kubectl wait --for=condition=ready pods mnemonic -n "$NAME" --timeout=5m >/dev/null 2>&1
-  mnemonic=$(kubectl exec -n "$NAME" -it mnemonic -- generate | grep MASTER_MNEMONIC | cut -d '=' -f 2 | tr -d '\r')
-  [ "$mnemonic" = "" ] && die "Mnemonic generation failed. Please try again."
+  mnemonic=$(kubectl exec -n "$NAME" mnemonic -- thornode keys add generate --dry-run --output json | jq -r '.mnemonic')
+  [[ $mnemonic == "" ]] || [[ $mnemonic == "null" ]] && die "Mnemonic generation failed. Please try again."
   kubectl -n "$NAME" create secret generic thornode-mnemonic --from-literal=mnemonic="$mnemonic"
   kubectl -n "$NAME" delete pod --now=true mnemonic
   echo
