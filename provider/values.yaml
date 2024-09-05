@@ -109,15 +109,15 @@ midgardBlockstore:
 
   image:
     name: registry.gitlab.com/thorchain/midgard
-    tag: "2.24.2"
-    hash: 2f1cde93da7faa7275048a62ba7b9975d95f4c29544f3babe37cdfe88a83fe49
+    tag: "2.24.3"
+    hash: d8d8d211056567705c6bfd36875c86944e3e2d13f12d2ee95133297372c9ed35
 
   schedule: "0 14 * * *"
 
   env:
     # these must point at an archive node if the local blockstore is not synced
-    MIDGARD_THORCHAIN_THOR_NODE_URL: https://thornode-v1.ninerealms.com/thorchain
-    MIDGARD_THORCHAIN_TENDERMINT_URL: https://rpc-v1.ninerealms.com/websocket
+    MIDGARD_THORCHAIN_THOR_NODE_URL: https://thornode-v2.ninerealms.com/thorchain
+    MIDGARD_THORCHAIN_TENDERMINT_URL: https://rpc-v2.ninerealms.com/websocket
 
   pvc:
     size: 400Gi
