@@ -27,15 +27,6 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
 
       initContainers:
-      {{- if eq (include "ethereum-daemon.net" .) "mocknet" }}
-        - name: init-scripts
-          image: "{{ .Values.image.scripts.repository }}:{{ .Values.image.scripts.tag }}"
-          imagePullPolicy: {{ .Values.image.scripts.pullPolicy }}
-          volumeMounts:
-            - name: entrypoint
-              mountPath: /tmp
-          command: [ "sh", "-c", "cp /scripts/* /tmp" ]
-      {{- else }}
         - name: init-beacon
           image: alpine:{{ .Values.global.images.alpine.tag }}@sha256:{{ .Values.global.images.alpine.hash }}
           imagePullPolicy: IfNotPresent
@@ -46,7 +37,6 @@ spec:
               mountPath: /scripts
           command:
             - /scripts/init-beacon.sh
-      {{- end }}
 
       containers:
         - name: {{ .Chart.Name }}
@@ -118,7 +108,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
-              
+
       volumes:
         - name: data
         {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
