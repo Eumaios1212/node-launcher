@@ -17,8 +17,8 @@ replicaCount: 1
 image:
   eth:
     name: ethereum/client-go
-    tag: "v1.14.9-amd64" # When tag is empty it defaults to the chart appVersion.
-    hash: 4b2af51df9eaa4f189adc9f9ad98e298be3b159ca22e5b475d5ec9de3b762c9f
+    tag: "" # When tag is empty it defaults to the chart appVersion.
+    hash: 27e62432904ef12d9d689e662decb03461e12bb2b3563250bcb0742bb10fcb51
   prysm:
     name: gcr.io/prysmaticlabs/prysm/beacon-chain
     tag: v5.0.4
