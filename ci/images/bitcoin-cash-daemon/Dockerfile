@@ -1,16 +1,21 @@
-FROM debian:11-slim as installer
+FROM debian:11-slim AS installer
 
 WORKDIR /work
 
 RUN apt-get update \
-  && apt-get -y install --no-install-recommends wget ca-certificates gnupg
+  && apt-get -y install --no-install-recommends \
+  ca-certificates=20210119 \
+  gnupg=2.2.27-2+deb11u2 \
+  wget=1.21-1+deb11u1 \
+  jq=1.6-2.1
 
 ENV BITCOIN_SHA256=0dcc387cbaa3a039c97ddc8fb99c1fa7bff5dc6e4bd3a01d3c3095f595ad2dce
 COPY version /version
 
 # trunk-ignore(hadolint/DL4006): sh does not support -o pipefail
 RUN set -ex && \
-  BITCOIN_URL=https://github.com/bitcoin-cash-node/bitcoin-cash-node/releases/download/v$(cat /version)/bitcoin-cash-node-$(cat /version)-x86_64-linux-gnu.tar.gz && \
+  VERSION="$(sed 's/-.*//' /version)" && \
+  BITCOIN_URL=https://github.com/bitcoin-cash-node/bitcoin-cash-node/releases/download/v$VERSION/bitcoin-cash-node-$VERSION-x86_64-linux-gnu.tar.gz && \
   wget -qO bitcoin.tar.gz "$BITCOIN_URL" && \
   sha256sum bitcoin.tar.gz && \
   echo "$BITCOIN_SHA256  bitcoin.tar.gz" | sha256sum -c - && \
@@ -23,6 +28,13 @@ FROM debian:11-slim
 COPY --from=installer /work/bitcoin/bin/* /usr/local/bin/
 COPY --from=installer /work/bitcoin/lib/* /usr/local/lib/
 COPY --from=installer /work/bitcoin/share/* /usr/local/share/
+
+COPY --from=installer /usr/bin/wget /usr/local/bin/
+COPY --from=installer /usr/lib/x86_64-linux-gnu/libpsl.so.5  /lib/x86_64-linux-gnu/
+
+COPY --from=installer /usr/bin/jq /usr/local/bin/
+COPY --from=installer /usr/lib/x86_64-linux-gnu/libjq.so.1 /usr/lib/x86_64-linux-gnu/
+COPY --from=installer /usr/lib/x86_64-linux-gnu/libonig.so.5 /usr/lib/x86_64-linux-gnu
 
 COPY ./scripts /scripts
 

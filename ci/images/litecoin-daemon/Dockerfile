@@ -1,6 +1,7 @@
 FROM alpine:3.12.1
 
 ENV GLIBC_VERSION=2.28-r0
+ENV JQ_VERSION=1.6-r1
 ENV LITECOIN_DATA=/home/litecoin/.litecoin
 
 WORKDIR /opt/litecoin
@@ -12,7 +13,8 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
 RUN apk update \
 	&& apk --no-cache add ca-certificates gnupg bash su-exec \
 	&& apk --no-cache add glibc-${GLIBC_VERSION}.apk \
-	&& apk --no-cache add glibc-bin-${GLIBC_VERSION}.apk
+	&& apk --no-cache add glibc-bin-${GLIBC_VERSION}.apk \
+	&& apk --no-cache add jq=${JQ_VERSION}
 
 # NOTE: The signing key expired on 4/26/22 and is not returned by keyservers.
 COPY davidburkett38-key.pgp .

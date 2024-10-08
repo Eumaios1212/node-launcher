@@ -6,7 +6,9 @@ RUN apt-get update && \
   ca-certificates=20210119 \
   git=1:2.30.2-1+deb11u2 \
   gnupg=2.2.27-2+deb11u2 \
-  wget=1.21-1+deb11u1
+  wget=1.21-1+deb11u1 \
+  jq=1.6-2.1
+
 
 # import builder keys
 WORKDIR /keys
@@ -34,6 +36,13 @@ FROM debian:11-slim
 COPY --from=installer /work/bitcoin/bin/* /usr/local/bin/
 COPY --from=installer /work/bitcoin/lib/* /usr/local/lib/
 COPY --from=installer /work/bitcoin/share/* /usr/local/share/
+
+COPY --from=installer /usr/bin/wget /usr/local/bin/
+COPY --from=installer /usr/lib/x86_64-linux-gnu/libpsl.so.5  /lib/x86_64-linux-gnu/
+
+COPY --from=installer /usr/bin/jq /usr/local/bin/
+COPY --from=installer /usr/lib/x86_64-linux-gnu/libjq.so.1 /usr/lib/x86_64-linux-gnu/
+COPY --from=installer /usr/lib/x86_64-linux-gnu/libonig.so.5 /usr/lib/x86_64-linux-gnu
 
 COPY ./scripts /scripts
 
