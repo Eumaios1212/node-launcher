@@ -50,17 +50,6 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
-*/}}
-{{- define "ethereum-daemon.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "ethereum-daemon.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Tag
 */}}
 {{- define "daemon.tag" -}}

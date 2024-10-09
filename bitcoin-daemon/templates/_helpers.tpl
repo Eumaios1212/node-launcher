@@ -50,17 +50,6 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
-*/}}
-{{- define "bitcoin-daemon.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "bitcoin-daemon.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Net
 */}}
 {{- define "bitcoin-daemon.net" -}}

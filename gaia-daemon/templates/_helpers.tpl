@@ -51,17 +51,6 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
-*/}}
-{{- define "gaia-daemon.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "gaia-daemon.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Net
 */}}
 {{- define "gaia-daemon.net" -}}
