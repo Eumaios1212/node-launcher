@@ -1,3 +1,5 @@
+net: mainnet
+
 minio:
   enabled: true
 

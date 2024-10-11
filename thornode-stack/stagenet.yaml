@@ -1,11 +1,18 @@
 global:
-  tag: stagenet-1.100.0
-  hash: e5985516c492f29e0e50af03427feefa2a9c248f7967af0b0a3c2450ea0026df
+  tag: stagenet-2.136.0
+  hash: 5898cca5ca76e6a8c52a9036a2b05560c7177ae63f910767a915b5f8f915f25a
 
 midgard:
-  image:
-    tag: 2.6.7
-    hash: 041825f08eaf8cb6830991819b0b21bc6430abbe36905a61fbac5eb80e740f92
+  net: stagenet
+  genesis:
+    remote: ""
+  blockstore:
+    remote: https://stagenet-snapshots.ninerealms.com/snapshots/midgard-blockstore/
+    size: 20Gi
+  env:
+    MIDGARD_GENESIS_LOCAL: ""
+    MIDGARD_GENESIS_INITIAL_BLOCK_HEIGHT: ""
+    MIDGARD_GENESIS_INITIAL_BLOCK_HASH: ""
 
 bitcoin-daemon:
   enabled: true

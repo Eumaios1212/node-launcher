@@ -37,6 +37,7 @@ spec:
           image: busybox:{{ .Values.global.images.busybox.tag }}@sha256:{{ .Values.global.images.busybox.hash }}
           imagePullPolicy: IfNotPresent
           command: ['sh', '-c', "until nc -zv {{ .Values.thorApi }}; do echo waiting for thornode; sleep 2; done"]
+        {{- if .Values.genesis.remote }}
         - name: init-genesis
           image: alpine/k8s:{{ .Values.global.images.alpineK8s.tag }}@sha256:{{ .Values.global.images.alpineK8s.hash }}
           imagePullPolicy: IfNotPresent
@@ -48,6 +49,7 @@ spec:
             subPath: init-genesis.sh
           - name: blockstore
             mountPath: /blockstore
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -57,8 +59,10 @@ spec:
           command: ['/entrypoint.sh']
           env:
             {{- range $key, $value := .Values.env }}
+            {{- if $value }}
             - name: {{ $key }}
               value: {{ $value | quote }}
+            {{- end }}
             {{- end }}
             - name: MIDGARD_BLOCKSTORE_LOCAL
               value: /blockstore
@@ -71,8 +75,12 @@ spec:
           - name: config
             mountPath: /entrypoint.sh
             subPath: entrypoint.sh
-          - name: config
+          - name: blockstore-config
+            {{- if eq "mainnet" .Values.net }}
             mountPath: /resources/hashes/thorchain
+            {{- else if eq "stagenet" .Values.net }}
+            mountPath: /resources/hashes/thorchain-stagenet-1
+            {{- end }}
             subPath: thorchain-blockstore-hashes
           - name: blockstore
             mountPath: /blockstore
@@ -107,6 +115,10 @@ spec:
         - name: config
           configMap:
             name: {{ include "midgard.fullname" . }}-config
+            defaultMode: 0777
+        - name: blockstore-config
+          configMap:
+            name: {{ include "midgard.fullname" . }}-blockstore-config
             defaultMode: 0777
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:

@@ -8,10 +8,9 @@ if ! command -v xmllint >/dev/null 2>&1; then
   exit 1
 fi
 
-NET=mainnet
-
 source ./scripts/core.sh
 
+get_node_net
 get_node_info_short
 
 # trunk-ignore(shellcheck/SC2310)
@@ -20,7 +19,18 @@ if ! node_exists; then
 fi
 
 # select snapshot provider
-PROVIDER="https://snapshots.ninerealms.com"
+case "${NET}" in
+  "mainnet")
+    PROVIDER="https://snapshots.ninerealms.com"
+    ;;
+  "stagenet")
+    PROVIDER="https://stagenet-snapshots.ninerealms.com"
+    ;;
+  *)
+    die "Unsupported network: ${NET}"
+    ;;
+esac
+
 read -r -p "=> Enter provider [${PROVIDER}]: " provider
 PROVIDER=${provider:-${PROVIDER}}
 echo
