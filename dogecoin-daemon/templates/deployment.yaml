@@ -18,6 +18,7 @@ spec:
         {{- include "dogecoin-daemon.selectorLabels" . | nindent 8 }}
     spec:
       automountServiceAccountToken: false
+      serviceAccountName: default
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
