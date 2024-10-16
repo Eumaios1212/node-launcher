@@ -23,7 +23,7 @@ events:
   image:
     name: registry.gitlab.com/thorchain/thornode
     tag: events
-    hash: 23fd5a0de883e78d86ee3cd8eaca183dfd38b887fdaaa51df579dc9fbbd7d80c
+    hash: 77c36422868d6a49e73e5791a9d13927b0b3e9e1e9e6f9c3886ddf17ed6a9ad2
 
   pvc:
     size: 1Gi
