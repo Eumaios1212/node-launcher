@@ -307,7 +307,7 @@ get_thornode_image() {
   # shellcheck disable=SC2086
   (
     set -eo pipefail
-    helm template ./thornode-stack $EXTRA_ARGS | grep 'image:.*thorchain/thornode' | head -n1 | awk '{print $2}'
+    helm template ./thornode-stack $EXTRA_ARGS | yq -r 'select((.kind == "Deployment") and (.metadata.name == "thornode")).spec.template.spec.containers[0].image'
   )
 }
 
