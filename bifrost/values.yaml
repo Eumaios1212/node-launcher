@@ -26,6 +26,16 @@ env:
   BIFROST_CHAINS_BSC_RPC_HOST: http://binance-smart-daemon:8545
   BIFROST_CHAINS_BSC_BLOCK_SCANNER_RPC_HOST: http://binance-smart-daemon:8545
 
+# secretEnv allows for setting sensitive custom environment variables in the Bifrost
+# container that are defined in a secret named "bifrost". At the time of writing, this
+# is primarily intended for client auth configuration for external chain RPC providers.
+# All list values in secretEnv are expected to match a key in the "bifrost" secret.
+secretEnv:
+  # Example values for configuring authorization for external Base RPC:
+  # - BIFROST_CHAINS_BASE_AUTHORIZATION_BEARER
+  # - BIFROST_CHAINS_BASE_USERNAME
+  # - BIFROST_CHAINS_BASE_PASSWORD
+
 thorApi: thornode:1317
 chainID:
   mainnet: thorchain-1

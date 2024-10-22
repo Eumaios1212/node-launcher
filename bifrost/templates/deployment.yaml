@@ -153,6 +153,13 @@ spec:
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
+            {{- range $env := .Values.secretEnv }}
+            - name: {{ $env }}
+              valueFrom:
+                secretKeyRef:
+                  name: bifrost
+                  key: {{ $env }}
+            {{- end }}
           ports:
             - name: p2p
               containerPort: {{ .Values.service.port.p2p }}
