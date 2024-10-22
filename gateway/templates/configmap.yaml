@@ -73,6 +73,8 @@ data:
       sendfile        on;
       keepalive_timeout  65;
 
+      server_tokens off;
+
       proxy_cache_path  /var/cache/nginx/thornode levels=1:2 keys_zone=thornode:10m;
       proxy_cache_path  /var/cache/nginx/bifrost levels=1:2 keys_zone=bifrost:10m;
 
