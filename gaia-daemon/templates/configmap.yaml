@@ -39,9 +39,9 @@ data:
     # pull the latest address book
     if [ -f /root/.gaia/config/addrbook.json ]; then
       mv /root/.gaia/config/addrbook.json /root/.gaia/config/addrbook.json.bak
-      wget -O /root/.gaia/config/addrbook.json https://quicksync.io/addrbook.cosmos.json || mv addrbook.json.bak addrbook.json
+      wget -O /root/.gaia/config/addrbook.json https://snapshots.polkachu.com/addrbook/cosmos/addrbook.json || mv addrbook.json.bak addrbook.json
     else
-      wget -O /root/.gaia/config/addrbook.json https://quicksync.io/addrbook.cosmos.json
+      wget -O /root/.gaia/config/addrbook.json https://snapshots.polkachu.com/addrbook/cosmos/addrbook.json
     fi
 
     # skip snapshot pull and cleanup tar if we already have a data directory
@@ -55,7 +55,8 @@ data:
     apk add aria2 curl jq lz4
 
     # fetch snapshot url
-    URL=`curl -L https://quicksync.io/cosmos.json | jq -r '.[] |select(.file=="cosmoshub-4-pruned")|.url'`
+    CHAIN="cosmos/mainnet"
+    URL=$(curl -s https://polkachu.com/api/v2/chain_snapshots/$CHAIN | jq -r .snapshot.url)
 
     # clean stale snapshots
     if ls /root/.gaia/cosmoshub-4-* >/dev/null 2>&1; then

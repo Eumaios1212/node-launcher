@@ -56,8 +56,8 @@ ingress:
 persistence:
   enabled: true
   size:
-    mainnet: 2Ti
-    stagenet: 2Ti
+    mainnet: 250Gi
+    stagenet: 250Gi
   accessMode: ReadWriteOnce
   # storageClass: "-"
 
