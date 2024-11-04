@@ -147,6 +147,9 @@ relay: ## Send a message that is relayed to a public Discord channel
 mimir: ## Send a mimir command to set a key/value
 	@./scripts/mimir.sh
 
+upgrade-vote: ## Send a vote command for an upgrade proposal
+	@./scripts/upgrade-vote.sh
+
 ban: ## Send a ban command with a node address
 	@./scripts/ban.sh
 
@@ -227,6 +230,6 @@ lint: ## Run linters (development)
 verify-ethereum: ## Verify Ethereum finalized slot state root
 	@./scripts/verify-ethereum.sh
 
-.PHONY: help helm repo pull tools install-loki install-prometheus install-metrics install-dashboard export-state hard-fork destroy-tools destroy-loki destroy-prometheus destroy-metrics prometheus grafana dashboard alert-manager mnemonic update-dependencies reset restart pods deploy update destroy status shell watch logs set-node-keys set-ip-address set-version pause resume lint verify-ethereum
+.PHONY: help helm repo pull tools install-loki install-prometheus install-metrics install-dashboard export-state hard-fork destroy-tools destroy-loki destroy-prometheus destroy-metrics prometheus grafana dashboard alert-manager mnemonic update-dependencies reset restart pods deploy update destroy status shell watch logs set-node-keys set-ip-address set-version upgrade-vote pause resume lint verify-ethereum
 
 .EXPORT_ALL_VARIABLES:
