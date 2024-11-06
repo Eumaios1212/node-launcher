@@ -1,6 +1,6 @@
 global:
-  tag: stagenet-2.136.0
-  hash: 5898cca5ca76e6a8c52a9036a2b05560c7177ae63f910767a915b5f8f915f25a
+  tag: stagenet-2.137.3
+  hash: 0224c8086d02647eb835e11d47386cfa5d5dbee6994b1d8c2bf02514d5f8061f
 
 midgard:
   net: stagenet
