@@ -30,7 +30,7 @@ secret_detection:
 ########################################################################################
 
 lint:
-  image: debian:11-slim
+  image: golang:1.23-bookworm
   stage: validate
   artifacts:
     when: on_failure
