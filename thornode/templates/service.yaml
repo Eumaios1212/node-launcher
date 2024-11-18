@@ -28,6 +28,10 @@ spec:
       port: {{ include "thornode.rpc" . }}
       targetPort: rpc
       protocol: TCP
+    - name: grpc
+      port: {{ include "thornode.grpc" . }}
+      targetPort: grpc
+      protocol: TCP
     - name: prometheus
       port: 26660
       targetPort: prometheus

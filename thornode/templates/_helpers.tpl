@@ -102,6 +102,19 @@ RPC Port
 {{- end -}}
 
 {{/*
+GRPC Port
+*/}}
+{{- define "thornode.grpc" -}}
+{{- if eq (include "thornode.net" .) "mainnet" -}}
+    {{ .Values.service.port.mainnet.grpc}}
+{{- else if eq (include "thornode.net" .) "stagenet" -}}
+    {{ .Values.service.port.stagenet.grpc}}
+{{- else -}}
+    {{ .Values.service.port.mainnet.grpc}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 P2P Port
 */}}
 {{- define "thornode.p2p" -}}

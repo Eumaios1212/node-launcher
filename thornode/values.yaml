@@ -55,9 +55,11 @@ service:
     stagenet:
       p2p: 27146
       rpc: 27147
+      grpc: 9090
     mainnet:
       p2p: 27146
       rpc: 27147
+      grpc: 9090
 
 persistence:
   enabled: true

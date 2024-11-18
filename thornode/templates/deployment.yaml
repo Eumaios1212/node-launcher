@@ -137,6 +137,9 @@ spec:
             - name: rpc
               containerPort: {{ include "thornode.rpc" . }}
               protocol: TCP
+            - name: grpc
+              containerPort: {{ include "thornode.grpc" . }}
+              protocol: TCP
             - name: prometheus
               containerPort: 26660
               protocol: TCP

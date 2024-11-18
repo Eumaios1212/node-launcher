@@ -51,6 +51,12 @@ spec:
       protocol: TCP
       name: rpc
     {{- end }}
+    {{- if .Values.grpc.enabled }}
+    - port: {{ include "gateway.grpc" . }}
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+    {{- end }}
     - port: {{ include "gateway.p2p" . }}
       targetPort: p2p
       protocol: TCP

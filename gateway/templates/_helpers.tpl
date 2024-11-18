@@ -83,6 +83,19 @@ RPC Port
 {{- end -}}
 
 {{/*
+GRPC Port
+*/}}
+{{- define "gateway.grpc" -}}
+{{- if eq (include "gateway.net" .) "mainnet" -}}
+    {{ .Values.service.port.mainnet.grpc}}
+{{- else if eq (include "gateway.net" .) "stagenet" -}}
+    {{ .Values.service.port.stagenet.grpc}}
+{{- else -}}
+    {{ .Values.service.port.mainnet.grpc}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 P2P Port
 */}}
 {{- define "gateway.p2p" -}}
