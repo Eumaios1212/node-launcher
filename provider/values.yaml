@@ -31,6 +31,14 @@ events:
   env:
     STORAGE_PATH: /data
 
+  resources:
+    requests:
+      cpu: 50m
+      memory: 512Mi
+    limits:
+      cpu: 2
+      memory: 4Gi
+
   # mappings for environment variable to the secret key in the "provider" secret
   secretEnv:
     {}
