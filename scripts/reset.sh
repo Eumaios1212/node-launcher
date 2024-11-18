@@ -46,7 +46,7 @@ case ${SERVICE} in
   binance-smart-daemon)
     kubectl scale -n "${NAME}" --replicas=0 deploy/binance-smart-daemon --timeout=5m
     kubectl wait --for=delete pods -l app.kubernetes.io/name=binance-smart-daemon -n "${NAME}" --timeout=5m >/dev/null 2>&1 || true
-    kubectl run -n "${NAME}" -it reset-binance-smart --rm --restart=Never --image=busybox --overrides='{"apiVersion": "v1", "spec": {"containers": [{"command": ["rm", "-rf", "/home/bsc/data/geth", "/home/bsc/data/keystore"], "name": "reset-binance-smart", "stdin": true, "stdinOnce": true, "tty": true, "image": "busybox", "volumeMounts": [{"mountPath": "/home/bsc/data", "name":"data"}]}], "volumes": [{"name": "data", "persistentVolumeClaim": {"claimName": "binance-smart-daemon"}}]}}'
+    kubectl run -n "${NAME}" -it reset-binance-smart --rm --restart=Never --image=busybox --overrides='{"apiVersion": "v1", "spec": {"containers": [{"command": ["rm", "-rf", "/home/bsc/data/geth", "/home/bsc/data/keystore", "/home/bsc/data/snapshot.tar.zst", "/home/bsc/data/snapshot.tar.zst.aria2"], "name": "reset-binance-smart", "stdin": true, "stdinOnce": true, "tty": true, "image": "busybox", "volumeMounts": [{"mountPath": "/home/bsc/data", "name":"data"}]}], "volumes": [{"name": "data", "persistentVolumeClaim": {"claimName": "binance-smart-daemon"}}]}}'
     kubectl scale -n "${NAME}" --replicas=1 deploy/binance-smart-daemon --timeout=5m
     ;;
 

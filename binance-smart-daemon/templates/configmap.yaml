@@ -44,7 +44,7 @@ data:
 
     # download snapshot
     snapshotMD=https://raw.githubusercontent.com/48Club/bsc-snapshots/main/README.md
-    snapshotURL=$(curl -sL "$snapshotMD" | grep -Eo 'https:\/\/[a-zA-Z0-9.\/]+geth\.fast\.[a-zA-Z0-9.]+')
+    snapshotURL=$(curl -sL "$snapshotMD" | grep -Eo "https:\/\/[a-zA-Z0-9.\/]+geth\.${SNAPSHOT_TYPE}\.[a-zA-Z0-9.]+")
     aria2c --continue --split=14 --max-connection-per-server=14 \
         --min-split-size=100M --out=snapshot.tar.zst "$snapshotURL"
 

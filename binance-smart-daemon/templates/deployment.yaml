@@ -36,6 +36,9 @@ spec:
               mountPath: /home/bsc/data
             - name: scripts
               mountPath: /scripts
+          env:
+            - name: SNAPSHOT_TYPE
+              value: "{{ .Values.snapshotType }}"
           command:
             - /scripts/init.sh
       containers:

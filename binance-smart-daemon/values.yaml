@@ -11,6 +11,10 @@ image:
   tag: "binance-smart-daemon-1.4.15"
   hash: "1f148b9f28dbfd04c75ade355a872229baeb1a319f35179d69d839dd0f46900c"
 
+# type of snapshot to take, either "full" or "fast"
+# see: https://github.com/48Club/bsc-snapshots?tab=readme-ov-file#geth
+snapshotType: "fast"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
