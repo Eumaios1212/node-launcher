@@ -55,9 +55,11 @@ spec:
             - name: rpc
               containerPort: {{ include "gateway.rpc" . }}
               protocol: TCP
+            {{- if .Values.grpc.enabled }}
             - name: grpc
               containerPort: {{ include "gateway.grpc" . }}
               protocol: TCP
+            {{- end }}
             - name: p2p
               containerPort: {{ include "gateway.p2p" . }}
               protocol: TCP

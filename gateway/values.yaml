@@ -39,9 +39,11 @@ service:
     mainnet:
       p2p: 27146
       rpc: 27147
+      grpc: 9090
     stagenet:
       p2p: 27146
       rpc: 27147
+      grpc: 9090
 
 serviceAccount:
   # Specifies whether a service account should be created
