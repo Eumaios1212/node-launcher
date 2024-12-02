@@ -119,8 +119,8 @@ midgardBlockstore:
 
   image:
     name: registry.gitlab.com/thorchain/midgard
-    tag: "2.25.0"
-    hash: 5e0bf9ea76e6253dad009fed2d17660ec03ac0417c38e9f6332b7195bd84e36b
+    tag: "2.26.0"
+    hash: 4eeae12ade4dbafdb3a8b2a23716f383c43976b6fab17c5bf2bc2fbaf47fe1bf
 
   schedule: "0 14 * * *"
 
