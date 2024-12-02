@@ -8,8 +8,8 @@ net: mainnet
 
 image:
   name: registry.gitlab.com/thorchain/devops/node-launcher
-  tag: "bitcoin-cash-daemon-27.1.0"
-  hash: "79b701f54ce8ec034ec800f3a23e08a56e5d4e02a89cc1e7f17ee11326d0ec70"
+  tag: "bitcoin-cash-daemon-28.0.0"
+  hash: "f4f117bf009115532ba43cf107ec83cdc62922addbcc092eda34ef98f43c04b5"
 
 imagePullSecrets: []
 nameOverride: ""

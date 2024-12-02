@@ -8,8 +8,8 @@ net: mainnet
 
 image:
   name: registry.gitlab.com/thorchain/devops/node-launcher
-  tag: "dogecoin-daemon-1.14.8"
-  hash: "6f9094ab8f68672292ea9868ab4b2470beee0184059678f6172b19757408b902"
+  tag: "dogecoin-daemon-1.14.9"
+  hash: "baac326ae3cd614ec3537f01e8928308560970a3747590d3535c5d664eab0d44"
 
 imagePullSecrets: []
 nameOverride: ""
