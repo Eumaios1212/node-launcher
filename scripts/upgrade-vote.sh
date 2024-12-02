@@ -22,4 +22,4 @@ get_upgrade_proposal_vote() {
 get_upgrade_proposal_name
 get_upgrade_proposal_vote
 
-thornode_exec /kube-scripts/retry.sh /kube-scripts/upgrade-vote.sh "$UPGRADE_PROPOSAL_NAME" "$UPGRADE_PROPOSAL_VOTE"
+kubectl exec -it -n "$NAME" -c thornode deploy/thornode -- /kube-scripts/retry.sh /kube-scripts/upgrade-vote.sh "$UPGRADE_PROPOSAL_NAME" "$UPGRADE_PROPOSAL_VOTE"
