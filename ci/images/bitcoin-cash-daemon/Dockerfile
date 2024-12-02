@@ -9,7 +9,7 @@ RUN apt-get update \
   wget=1.21-1+deb11u1 \
   jq=1.6-2.1
 
-ENV BITCOIN_SHA256=0dcc387cbaa3a039c97ddc8fb99c1fa7bff5dc6e4bd3a01d3c3095f595ad2dce
+ENV BITCOIN_SHA256=ba735cd3b70fab35ac1496e38596cec1f8d34989924376de001d4a86198f7158
 COPY version /version
 
 # trunk-ignore(hadolint/DL4006): sh does not support -o pipefail
