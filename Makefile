@@ -206,6 +206,9 @@ install-provider: ## Install Thorchain provider
 destroy-provider: ## Uninstall Thorchain provider
 	@scripts/destroy-provider.sh
 
+install-mirroring: ## Install repository mirroring cronjob
+	@helm upgrade --install mirroring mirroring/ -n thornode --wait
+
 grafana: ## Access Grafana UI through port-forward locally
 	@echo User: admin
 	@echo Password: thorchain

@@ -5,14 +5,13 @@ metadata:
   name: mirror-app
 data:
   repos: |
-    https://gitlab.com/thorchain/thornode
-    https://gitlab.com/thorchain/devops/node-launcher
-    https://gitlab.com/thorchain/devops/cluster-launcher
-    https://gitlab.com/thorchain/midgard
-    https://gitlab.com/thorchain/tss/go-tss
-    https://gitlab.com/thorchain/tss/tss-lib
-    https://gitlab.com/thorchain/ledger-thorchain-go
-    https://github.com/asgardex/asgardex-desktop
+    gitlab.com/thorchain/thornode
+    gitlab.com/thorchain/devops/node-launcher
+    gitlab.com/thorchain/devops/cluster-launcher
+    gitlab.com/thorchain/midgard
+    gitlab.com/thorchain/tss/tss-lib
+    gitlab.com/thorchain/ledger-thorchain-go
+    github.com/asgardex/asgardex-desktop
 
   entrypoint.sh: |
     #!/usr/bin/env bash
@@ -34,7 +33,7 @@ data:
     while IFS= read -r REPO; do
         OUT="$ROOT"/$(get_sanitized_dir "$REPO")
         if [ ! -d "$OUT" ]; then
-            git clone --mirror "$REPO" "$OUT"
+            git clone --mirror "https://${REPO}.git" "$OUT"
         fi
         pushd "$OUT"
         git fetch --all

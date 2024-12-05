@@ -4,8 +4,11 @@ apiVersion: v1
 metadata:
   name: mirror-backups
 spec:
+  {{- if .Values.persistence.storageClass }}
   storageClassName: "{{ .Values.persistence.storageClass }}"
+  {{- end }}
   volumeMode: Filesystem
+  volumeBindingMode: Immediate
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
   resources:

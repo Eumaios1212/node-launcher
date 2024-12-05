@@ -1,5 +1,4 @@
-
 persistence:
-  storageClass: local-path
+  # storageClass: ""
   accessMode: ReadWriteOnce
   size: 8Gi

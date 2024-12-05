@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: mirror
-            image: bitnami/git:2.43.0@sha256:be9d7081679705dda8ac4fc1837ba40903cfddeedba452507b7dda58508af6fe
+            image: bitnami/git:2.47.1@sha256:41723d7f550146ec5ef51e0319bea883891377528543a7a8f5360048d902d59b
             imagePullPolicy: IfNotPresent
             command: [ "/app/entrypoint.sh", "/app/repos", "/backups" ]
             volumeMounts:
