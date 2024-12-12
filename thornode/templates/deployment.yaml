@@ -143,17 +143,17 @@ spec:
             - name: prometheus
               containerPort: 26660
               protocol: TCP
-          livenessProbe:
-            timeoutSeconds: 10
-            httpGet:
-              path: /status
-              port: rpc
-          startupProbe:
-            failureThreshold: 30
-            timeoutSeconds: 10
-            httpGet:
-              path: /status
-              port: rpc
+          # livenessProbe:
+          #   timeoutSeconds: 10
+          #   httpGet:
+          #     path: /status
+          #     port: rpc
+          # startupProbe:
+          #   failureThreshold: 30
+          #   timeoutSeconds: 10
+          #   httpGet:
+          #     path: /status
+          #     port: rpc
           readinessProbe:
             timeoutSeconds: 10
             httpGet:
