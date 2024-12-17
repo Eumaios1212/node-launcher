@@ -130,7 +130,7 @@ midgardBlockstore:
     MIDGARD_THORCHAIN_TENDERMINT_URL: https://rpc-v2.ninerealms.com/websocket
 
   pvc:
-    size: 400Gi
+    size: 1Ti
 
   # set these for service mesh with sidecars that require manual exit
   # quitEndpoint: http://localhost:15020/quitquitquit
