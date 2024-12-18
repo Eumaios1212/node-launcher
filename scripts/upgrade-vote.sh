@@ -7,7 +7,7 @@ get_node_info_short
 echo "=> Voting on THORNode upgrade proposal"
 
 get_upgrade_proposal_name() {
-  read -r -p "=> Enter THORNode upgrade proposal name: [$UPGRADE_PROPOSAL_NAME]" upgrade_proposal_name
+  read -r -p "=> Enter THORNode upgrade proposal name: [$UPGRADE_PROPOSAL_NAME] " upgrade_proposal_name
   UPGRADE_PROPOSAL_NAME=${upgrade_proposal_name:-$UPGRADE_PROPOSAL_NAME}
   echo
 }
