@@ -25,6 +25,7 @@ env:
   BIFROST_CHAINS_BSC_DISABLED: "false"
   BIFROST_CHAINS_BSC_RPC_HOST: http://binance-smart-daemon:8545
   BIFROST_CHAINS_BSC_BLOCK_SCANNER_RPC_HOST: http://binance-smart-daemon:8545
+  BIFROST_CHAINS_BASE_DISABLED: "true"
 
 # secretEnv allows for setting sensitive custom environment variables in the Bifrost
 # container that are defined in a secret named "bifrost". At the time of writing, this
