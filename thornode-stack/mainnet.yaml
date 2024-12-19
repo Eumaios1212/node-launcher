@@ -1,6 +1,6 @@
 global:
-  tag: mainnet-3.0.0
-  hash: 8b2bb1b80ca30806b5c372f27f31172a6703573b7ade741d1925d98487a6e4a2
+  tag: mainnet-3.1.0
+  hash: e750bb6f001db7204b4fdd9748a22921a901d2a86d6779c3aef9c2e53fad006a
 
 thornode:
   haltHeight:
