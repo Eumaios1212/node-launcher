@@ -167,6 +167,13 @@ Ethereum
 {{- end -}}
 
 {{/*
+Base
+*/}}
+{{- define "bifrost.baseDaemon" -}}
+{{ index .Values.baseDaemon (include "bifrost.net" .) }}
+{{- end -}}
+
+{{/*
 Avalanche
 */}}
 {{- define "bifrost.avaxDaemon" -}}

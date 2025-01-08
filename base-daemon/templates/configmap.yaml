@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}
+data:
+  init.sh: |
+    #!/bin/sh
+
+    # create the authentication key
+    set -euo pipefail
+    apk add openssl
+    openssl rand -hex 32 | tr -d "\n" > /root/jwt.hex
+
+    # download snapshot if the data directory does not exist
+    if [ ! -d /root/.ethereum/base-mainnet/geth ]; then
+      cd /root
+      apk add wget curl zstd
+      mkdir -p /root/.ethereum/base-mainnet
+
+      # NOTE: this has been left for posterity, and likely can
+      #   be removed, since the chart has been switched to using statesync.
+      # echo "Downloading snapshot"
+      # LATEST=$(curl https://mainnet-full-snapshots.base.org/latest)
+      # wget -O- https://mainnet-full-snapshots.base.org/$LATEST |
+      #   zstd --decompress |
+      #   tar -xvf - -C /root/.ethereum/base-mainnet
+
+      # cd /root/.ethereum/base-mainnet
+      # mv snapshots/mainnet/download/geth geth
+    fi
+
+  probe.sh: |
+    #!/bin/sh
+
+    FILE=/root/.probe_last_height
+    SYNCING=$(geth --datadir /root/.ethereum/base-mainnet attach --exec eth.syncing) || exit 1
+    HEIGHT=$(geth --datadir /root/.ethereum/base-mainnet attach --exec eth.blockNumber) || exit 1
+
+    # first time we are syncing from scratch
+    if [ "$HEIGHT" = "0" ]; then
+      exit 0
+    fi
+
+    if [ ! -f "$FILE" ]; then
+      echo "$HEIGHT" >$FILE
+      echo "Not getting new blocks"
+      exit 1
+    fi
+
+    OLD=$(cat $FILE)
+    echo "$HEIGHT" >$FILE
+    if [ "$OLD" = "$HEIGHT" ]; then
+      echo "Not getting new blocks"
+      exit 1
+    fi
+    exit 0

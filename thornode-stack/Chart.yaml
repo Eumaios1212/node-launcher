@@ -70,3 +70,8 @@ dependencies:
     repository: file://../binance-smart-daemon
     version: 0.1.0
     condition: binance-smart-daemon.enabled
+
+  - name: base-daemon
+    repository: file://../base-daemon
+    version: 0.1.0
+    condition: base-daemon.enabled

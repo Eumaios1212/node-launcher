@@ -37,3 +37,6 @@ avalanche-daemon:
 
 binance-smart-daemon:
   enabled: true
+
+base-daemon:
+  enabled: false

@@ -5,4 +5,4 @@ rules:
   document-start:
     present: false
   line-length:
-    max: 200
+    max: 2000

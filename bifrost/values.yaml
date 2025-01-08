@@ -26,7 +26,7 @@ env:
   BIFROST_CHAINS_BSC_RPC_HOST: http://binance-smart-daemon:8545
   BIFROST_CHAINS_BSC_BLOCK_SCANNER_RPC_HOST: http://binance-smart-daemon:8545
   BIFROST_CHAINS_BASE_DISABLED: "false"
-  # BIFROST_CHAINS_BASE_RPC_HOST: <enter RPC URL>
+  # BIFROST_CHAINS_BASE_RPC_HOST: <enter RPC URL>  (example for local daemon: http://base-daemon:8545)
   # BIFROST_CHAINS_BASE_AUTHORIZATION_BEARER: <enter RPC Bearer token if applicable>
   # BIFROST_CHAINS_BASE_USERNAME: <enter RPC username if BasicAuth applicable>
   # BIFROST_CHAINS_BASE_PASSWORD: <enter RPC password if BasicAuth applicable>
