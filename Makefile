@@ -26,12 +26,11 @@ helm-plugins: ## Install Helm plugins
 repos: ## Add Helm repositories for dependencies
 	@echo "=> Installing Helm repos"
 	@helm repo add grafana https://grafana.github.io/helm-charts
-	@helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard
 	@helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	@helm repo update
 	@echo
 
-tools: install-prometheus install-loki install-metrics install-dashboard ## Intall/Update Prometheus/Grafana, Loki, Metrics Server, Kubernetes dashboard
+tools: install-prometheus install-loki install-metrics ## Intall/Update Prometheus/Grafana, Loki, Metrics Server
 
 pull: ## Git pull node-launcher repository
 	@git clean -idf
@@ -165,7 +164,7 @@ observe-tx-ins: ## Manually observe missed inbound transactions.
 observe-tx-outs: ## Manually observe missed outbound transactions.
 	@./scripts/observe-tx-outs.sh
 
-destroy-tools: destroy-prometheus destroy-loki destroy-dashboard ## Uninstall Prometheus/Grafana, Loki, Kubernetes dashboard
+destroy-tools: destroy-prometheus destroy-loki ## Uninstall Prometheus/Grafana, Loki
 
 install-loki: repos ## Install/Update Loki logs management stack
 	@./scripts/install-loki.sh
@@ -189,8 +188,11 @@ destroy-metrics: ## Uninstall Metrics Server
 	@kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 	@echo
 
-install-dashboard: repos ## Install/Update Kubernetes dashboard
+# Deprecation note: removed this as a default install target, and eventually fully
+#   removing it from being part of/maintained in node-launcher.
+install-dashboard: repos ## Install/Update Kubernetes dashboard (deprecated)
 	@echo "=> Installing Kubernetes Dashboard"
+	@helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard
 	@helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -n kube-system --wait -f ./kubernetes-dashboard/values.yaml
 	@kubectl apply -f ./kubernetes-dashboard/dashboard-admin.yaml
 	@echo
