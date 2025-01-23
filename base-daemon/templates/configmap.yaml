@@ -11,24 +11,6 @@ data:
     apk add openssl
     openssl rand -hex 32 | tr -d "\n" > /root/jwt.hex
 
-    # download snapshot if the data directory does not exist
-    if [ ! -d /root/.ethereum/base-mainnet/geth ]; then
-      cd /root
-      apk add wget curl zstd
-      mkdir -p /root/.ethereum/base-mainnet
-
-      # NOTE: this has been left for posterity, and likely can
-      #   be removed, since the chart has been switched to using statesync.
-      # echo "Downloading snapshot"
-      # LATEST=$(curl https://mainnet-full-snapshots.base.org/latest)
-      # wget -O- https://mainnet-full-snapshots.base.org/$LATEST |
-      #   zstd --decompress |
-      #   tar -xvf - -C /root/.ethereum/base-mainnet
-
-      # cd /root/.ethereum/base-mainnet
-      # mv snapshots/mainnet/download/geth geth
-    fi
-
   probe.sh: |
     #!/bin/sh
 
