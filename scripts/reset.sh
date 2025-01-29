@@ -4,7 +4,7 @@ source ./scripts/core.sh
 
 get_node_info_short
 echo "=> Select a THORNode service to reset"
-menu midgard midgard midgard-blockstore binance-smart-daemon thornode gaia-daemon ethereum-daemon-execution ethereum-daemon-beacon avalanche-daemon litecoin-daemon
+menu midgard midgard midgard-blockstore binance-smart-daemon thornode gaia-daemon ethereum-daemon-execution ethereum-daemon-beacon avalanche-daemon litecoin-daemon bitcoin-daemon
 SERVICE=${MENU_SELECTED}
 
 if node_exists; then
@@ -83,5 +83,12 @@ case ${SERVICE} in
     kubectl wait --for=delete pods -l app.kubernetes.io/name=litecoin-daemon -n "${NAME}" --timeout=5m >/dev/null 2>&1 || true
     kubectl run -n "${NAME}" -it reset-litecoin --rm --restart=Never --image=busybox --overrides='{"apiVersion": "v1", "spec": {"containers": [{"command": ["sh", "-c", "rm -rf /home/litecoin/.litecoin/*"], "name": "reset-litecoin", "stdin": true, "stdinOnce": true, "tty": true, "image": "busybox", "volumeMounts": [{"mountPath": "/home/litecoin/.litecoin", "name":"data"}]}], "volumes": [{"name": "data", "persistentVolumeClaim": {"claimName": "litecoin-daemon"}}]}}'
     kubectl scale -n "${NAME}" --replicas=1 deploy/litecoin-daemon --timeout=5m
+    ;;
+
+  bitcoin-daemon)
+    kubectl scale -n "${NAME}" --replicas=0 deploy/bitcoin-daemon --timeout=5m
+    kubectl wait --for=delete pods -l app.kubernetes.io/name=bitcoin-daemon -n "${NAME}" --timeout=5m >/dev/null 2>&1 || true
+    kubectl run -n "${NAME}" -it reset-bitcoin --rm --restart=Never --image=busybox --overrides='{"apiVersion": "v1", "spec": {"containers": [{"command": ["sh", "-c", "rm -rf /home/bitcoin/.bitcoin/*"], "name": "reset-bitcoin", "stdin": true, "stdinOnce": true, "tty": true, "image": "busybox", "volumeMounts": [{"mountPath": "/home/bitcoin/.bitcoin", "name":"data"}]}], "volumes": [{"name": "data", "persistentVolumeClaim": {"claimName": "bitcoin-daemon"}}]}}'
+    kubectl scale -n "${NAME}" --replicas=1 deploy/bitcoin-daemon --timeout=5m
     ;;
 esac
