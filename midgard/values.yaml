@@ -113,6 +113,10 @@ tolerations: []
 
 affinity: {}
 
+prometheus:
+  enabled: true
+  namespace: prometheus-system
+
 global:
   images:
     alpineK8s:

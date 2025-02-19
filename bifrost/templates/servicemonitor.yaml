@@ -1,8 +1,9 @@
+{{- if .Values.prometheus.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ .Release.Name }}-{{ include "bifrost.name" . }}
-  namespace: prometheus-system
+  namespace: {{ .Values.prometheus.namespace }}
   labels:
     {{- include "bifrost.labels" . | nindent 4 }}
     release: prometheus
@@ -16,3 +17,4 @@ spec:
   endpoints:
   - port: prometheus
     interval: 15s
+{{- end }}

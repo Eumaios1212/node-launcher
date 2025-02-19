@@ -165,6 +165,10 @@ tolerations: []
 
 affinity: {}
 
+prometheus:
+  enabled: true
+  namespace: prometheus-system
+
 global:
   gateway:
     enabled: false
