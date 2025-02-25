@@ -4,13 +4,16 @@ set -euo pipefail
 
 REGISTRY="registry.gitlab.com/thorchain/devops/node-launcher"
 
-docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+# login to registry when run on master
+if [ "$CI_COMMIT_BRANCH" = "master" ]; then
+  docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+fi
 
 find ci/images/ -name version -printf '%h\n' | xargs basename -a | while read -r image; do
   version=$(cat "ci/images/$image/version")
 
   # check to see if image version is already published
-  if docker manifest inspect "$REGISTRY:${image}-${version}" > /dev/null 2>&1; then
+  if docker manifest inspect "$REGISTRY:${image}-${version}" >/dev/null 2>&1; then
     echo "Image ${image}:${version} already published."
   else
     echo "Building image $image:$version..."
