@@ -1,17 +1,12 @@
 image:
   execution:
     name: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth
-    tag: v1.101411.8
-    hash: 900c76a3b22bd39fa5c9a7a0c14b827faa9a7d3b35feaf9b6e6ffba264434d73
-    # TODO: move to this version after all nodes have started up on v1.101411.8 and the database format has been migrated.
-    #   See https://github.com/ethereum-optimism/op-geth/releases/tag/v1.101411.8 for details.
-    # name: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth
-    # tag: v1.101500.0
-    # hash: cca0c324dfd2bbcff4a1304c37516f43fa68ba39b95ee27da78f70f1ba9d4bc8
+    tag: v1.101500.1
+    hash: 671f9353e36ef0283d0de382cc5ca432ceee3671358a4bdf4d5d576007661328
   beacon:
     name: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node
-    tag: v1.11.1
-    hash: 02a8ed9ef4ea978616b53d794b2b0f6a956d3afe8e001393ff92e1f911df09a7
+    tag: v1.11.2
+    hash: 7fb9665576580b3d7369bb95e8bd9a622b353315cc6eb5268d6a98c34bbf6a07
 
 env:
   shared:
