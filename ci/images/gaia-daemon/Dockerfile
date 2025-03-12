@@ -12,7 +12,7 @@ COPY version /version
 ENV PACKAGES="curl make git libc-dev bash file gcc linux-headers eudev-dev python3"
 RUN apk add --no-cache $PACKAGES
 
-ARG SRC_COMMIT=1663de72571989ac98a89c544f65128e166e05f9
+ARG SRC_COMMIT=087ac5f4839e880bc9f12d3f0b5649e0067c0d36
 RUN VERSION="$(sed 's/-.*//' /version)" && \
   git init && \
   git remote add origin https://github.com/cosmos/gaia && \
