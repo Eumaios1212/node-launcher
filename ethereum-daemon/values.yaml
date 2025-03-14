@@ -21,8 +21,8 @@ image:
     hash: 85d3e0cd680336a55a5163cdc8bbb7b3f246e5d8f39550fbb0335c139e060557
   prysm:
     name: gcr.io/prysmaticlabs/prysm/beacon-chain
-    tag: v5.3.0
-    hash: 6293cfd3e32ca76f75cb23edda75544347005120c06a844bd39059e865b6122f
+    tag: v5.3.1
+    hash: 4d0b6b5c9e034a74ea2f1cb7e09922468e1259909135b9290ba580cbde09d031
 
 imagePullSecrets: []
 nameOverride: ""
