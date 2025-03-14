@@ -40,3 +40,6 @@ binance-smart-daemon:
 
 base-daemon:
   enabled: false
+
+xrp-daemon:
+  enabled: false

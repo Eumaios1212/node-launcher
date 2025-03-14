@@ -75,3 +75,8 @@ dependencies:
     repository: file://../base-daemon
     version: 0.1.0
     condition: base-daemon.enabled
+
+  - name: xrp-daemon
+    repository: file://../xrp-daemon
+    version: 0.1.0
+    condition: xrp-daemon.enabled

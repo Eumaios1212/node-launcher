@@ -91,6 +91,11 @@ avaxDaemon:
   mainnet: http://avalanche-daemon:9650/ext/bc/C/rpc
   stagenet: http://avalanche-daemon:9650/ext/bc/C/rpc
 
+xrpDaemon:
+  enabled: false
+  mainnet: http://xrp-daemon:51234
+  stagenet: http://xrp-daemon:51234
+
 replicaCount: 1
 
 strategyType: Recreate

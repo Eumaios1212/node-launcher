@@ -1,0 +1,83 @@
+# Default values for xrp-daemon.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+net: mainnet
+
+image:
+  name: xrpllabsofficial/xrpld
+  tag: "v2.4.0"
+  hash: "1b636a71bccf7b08b3771db9c9c98d6e7f74d88ff4d88267b5d9b4afb3190d96"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+persistence:
+  enabled: true
+  size:
+    stagenet: 100Gi
+    mainnet: 100Gi
+  accessMode: ReadWriteOnce
+  # storageClass: "-"
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port:
+    mainnet:
+      p2p: 51235
+      rpc: 51234
+    stagenet:
+      p2p: 51235
+      rpc: 51234
+
+ingress:
+  enabled: false
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: letsencrypt-production
+  hosts:
+    []
+    # - host: midgard.example.com
+    #   paths:
+    #   - path: /
+    #     backend:
+    #       serviceName: gateway
+    #       servicePort: midgard
+  tls:
+    []
+    # - secretName: midgard-tls
+    #   hosts:
+    #     - midgard.example.com
+
+resources:
+  limits:
+    # cpu: 1
+    memory: 40Gi
+  requests:
+    cpu: 12
+    memory: 36Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+global: {}

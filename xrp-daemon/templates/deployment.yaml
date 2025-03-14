@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "xrp-daemon.fullname" . }}
+  labels:
+    {{- include "xrp-daemon.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "xrp-daemon.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        network-policy: external-egress-only
+        {{- include "xrp-daemon.selectorLabels" . | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      serviceAccountName: default
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+      containers:
+      - name: {{ .Chart.Name }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+        image: {{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}
+        imagePullPolicy: IfNotPresent
+        command:
+          - rippled
+          - --net
+          - --conf=/scripts/rippled.cfg
+        volumeMounts:
+          - name: data
+            mountPath: /var/lib/rippled
+          - name: scripts
+            mountPath: /scripts
+        ports:
+          - name: rpc
+            containerPort: {{ include "xrp-daemon.rpc" . }}
+            protocol: TCP
+          - name: p2p
+            containerPort: {{ include "xrp-daemon.p2p" . }}
+            protocol: TCP
+        startupProbe:
+          failureThreshold: 120  # 1 hour, time to get state and initial ledgers
+          periodSeconds: 30
+          timeoutSeconds: 10
+          exec:
+            command:
+              - /scripts/probe.sh
+        livenessProbe:
+          timeoutSeconds: 10
+          periodSeconds: 30
+          exec:
+            command:
+              - /scripts/probe.sh
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: p2p
+            scheme: HTTPS
+            httpHeaders:
+            - name: "Insecure-Skip-TLS-Verify"
+              value: "1"
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - name: data
+      {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "xrp-daemon.fullname" . }}{{- end }}
+      {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+        hostPath:
+          path: {{ .Values.persistence.hostPath }}
+          type: DirectoryOrCreate
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+      - name: scripts
+        configMap:
+          name: {{ include "xrp-daemon.fullname" . }}-scripts
+          defaultMode: 0777
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

@@ -51,3 +51,6 @@ avalanche-daemon:
 
 binance-smart-daemon:
   fullnameOverride: binance-smart-daemon
+
+xrp-daemon:
+  fullnameOverride: xrp-daemon
