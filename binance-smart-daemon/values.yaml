@@ -8,8 +8,8 @@ replicaCount: 1
 
 image:
   name: registry.gitlab.com/thorchain/devops/node-launcher
-  tag: binance-smart-daemon-1.5.7
-  hash: c02828f983db6308bdcefb86b7fb71404da54d3765f518b81c62807cb30bd4e5
+  tag: binance-smart-daemon-1.5.8
+  hash: 7aa6165716b6b405a7d32d45ca6b123d4d8fc5553c0e54e2ba1015b1b48ef28e
 
 # type of snapshot to take, either "full" or "fast"
 # see: https://github.com/48Club/bsc-snapshots?tab=readme-ov-file#geth
