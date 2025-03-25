@@ -4,15 +4,15 @@
 
 # Source: https://github.com/cosmos/gaia/blob/main/Dockerfile
 
-FROM golang:1.22-alpine AS build
+FROM golang:1.23-alpine AS build
 
 WORKDIR /app
 COPY version /version
 
-ENV PACKAGES="curl make git libc-dev bash file gcc linux-headers eudev-dev python3"
+ENV PACKAGES="curl build-base git bash file linux-headers eudev-dev"
 RUN apk add --no-cache $PACKAGES
 
-ARG SRC_COMMIT=087ac5f4839e880bc9f12d3f0b5649e0067c0d36
+ARG SRC_COMMIT=9a46fb281c46346370dade19c68ae1d01251a9ea
 RUN VERSION="$(sed 's/-.*//' /version)" && \
   git init && \
   git remote add origin https://github.com/cosmos/gaia && \
@@ -20,11 +20,11 @@ RUN VERSION="$(sed 's/-.*//' /version)" && \
   git checkout $SRC_COMMIT
 
 # See https://github.com/CosmWasm/wasmvm/releases
-ARG WASMVM_VERSION=v2.1.5
+ARG WASMVM_VERSION=v2.2.3
 ADD https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm_muslc.aarch64.a /lib/libwasmvm_muslc.aarch64.a
 ADD https://github.com/CosmWasm/wasmvm/releases/download/${WASMVM_VERSION}/libwasmvm_muslc.x86_64.a /lib/libwasmvm_muslc.x86_64.a
-RUN sha256sum /lib/libwasmvm_muslc.aarch64.a | grep 1bad0e3f9b72603082b8e48307c7a319df64ca9e26976ffc7a3c317a08fe4b1a
-RUN sha256sum /lib/libwasmvm_muslc.x86_64.a | grep c6612d17d82b0997696f1076f6d894e339241482570b9142f29b0d8f21b280bf
+RUN sha256sum /lib/libwasmvm_muslc.aarch64.a | grep 6641730781bb1adc4bdf04a1e0f822b9ad4fb8ed57dcbbf575527e63b791ae41
+RUN sha256sum /lib/libwasmvm_muslc.x86_64.a | grep 32503fe35a7be202c5f7c3051497d6e4b3cd83079a61f5a0bf72a2a455b6d820
 RUN cp "/lib/libwasmvm_muslc.$(uname -m).a" /lib/libwasmvm_muslc.a
 
 # build
@@ -37,7 +37,7 @@ RUN echo "Ensuring binary is statically linked ..."  \
 # Deploy
 ########################################################################################
 
-FROM alpine:3.20
+FROM alpine:3.21
 RUN apk add --no-cache curl jq
 COPY --from=build /app/build/gaiad /gaiad
 COPY entrypoint.sh /entrypoint.sh
