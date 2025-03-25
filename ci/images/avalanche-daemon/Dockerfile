@@ -1,4 +1,4 @@
-# Upstream: https://github.com/ava-labs/avalanchego/blob/v1.7.14/Dockerfile
+# Upstream: https://github.com/ava-labs/avalanchego/blob/v1.13.0/Dockerfile
 
 # Changes to the minimum golang version must also be replicated in
 # scripts/ansible/roles/golang_base/defaults/main.yml
@@ -8,10 +8,10 @@
 # README.md
 # go.mod
 # ============= Compilation Stage ================
-FROM golang:1.22.8-bullseye AS builder
+FROM golang:1.23.6-bookworm AS builder
 
 COPY version /version
-ARG COMMIT=bf1d1debec5fd55055330a00da1e9567b280c950
+ARG COMMIT=65564a435d166dd2f6a6f54ed08b016721108171
 WORKDIR /build
 RUN TAG="v$(cat /version)" && \
   git init && \
