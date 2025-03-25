@@ -13,7 +13,7 @@ FROM golang:1.23.6-bookworm AS builder
 COPY version /version
 ARG COMMIT=65564a435d166dd2f6a6f54ed08b016721108171
 WORKDIR /build
-RUN TAG="v$(cat /version)" && \
+RUN TAG="v$(sed 's/-.*//' /version)" && \
   git init && \
   git remote add origin https://github.com/ava-labs/avalanchego && \
   git fetch --depth 1 origin "$TAG" && \
@@ -21,7 +21,7 @@ RUN TAG="v$(cat /version)" && \
   ./scripts/build.sh
 
 # ============= Cleanup Stage ================
-FROM debian:11-slim AS execution
+FROM debian:12-slim AS execution
 
 # Install curl and jq for startup and liveness probes
 RUN apt-get update && apt-get install -y curl jq
