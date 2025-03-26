@@ -21,8 +21,8 @@ replicaCount: 1
 
 image:
   name: nginx
-  tag: 1.27.2-alpine
-  hash: 2140dad235c130ac861018a4e13a6bc8aea3a35f3a40e20c1b060d51a7efd250
+  tag: 1.27.4-alpine
+  hash: 4ff102c5d78d254a6f0da062b3cf39eaf07f01eec0927fd21e219d0af8bc0591
 
 imagePullSecrets: []
 nameOverride: ""
