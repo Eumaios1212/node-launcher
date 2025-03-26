@@ -2,11 +2,11 @@ image:
   execution:
     name: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth
     tag: v1.101500.1
-    hash: 671f9353e36ef0283d0de382cc5ca432ceee3671358a4bdf4d5d576007661328
+    hash: 7754cfe6a5c2aa62eb78772cddb1e3e4454ba1fc307926132fddfc9d5037bf5c
   beacon:
     name: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node
-    tag: v1.11.2
-    hash: 7fb9665576580b3d7369bb95e8bd9a622b353315cc6eb5268d6a98c34bbf6a07
+    tag: v1.12.1
+    hash: 37e7d22eeebc9b39df06e473881addabff6cebdd2aeb4af66a06f8f46ae16242
 
 env:
   shared:
