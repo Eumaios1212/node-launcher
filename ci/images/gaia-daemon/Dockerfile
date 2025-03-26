@@ -12,7 +12,7 @@ COPY version /version
 ENV PACKAGES="curl build-base git bash file linux-headers eudev-dev"
 RUN apk add --no-cache $PACKAGES
 
-ARG SRC_COMMIT=9a46fb281c46346370dade19c68ae1d01251a9ea
+ARG SRC_COMMIT=bb26c96eb7f344ab1f74bd4936c7bcfc23d67fe6
 RUN VERSION="$(sed 's/-.*//' /version)" && \
   git init && \
   git remote add origin https://github.com/cosmos/gaia && \
