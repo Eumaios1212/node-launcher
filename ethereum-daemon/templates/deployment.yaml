@@ -39,6 +39,7 @@ spec:
           command:
             - /scripts/init-beacon.sh
 
+      terminationGracePeriodSeconds: 330
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
