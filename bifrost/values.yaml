@@ -20,16 +20,21 @@ debug: false
 env:
   BIFROST_CHAINS_BTC_SCANNER_LEVELDB_COMPACTION_TABLE_SIZE_MULTIPLIER: "1"
 
-  # enable binance smart chain
+  # binance smart chain
   BSC_HOST: http://binance-smart-daemon:8545
   BIFROST_CHAINS_BSC_DISABLED: "false"
   BIFROST_CHAINS_BSC_RPC_HOST: http://binance-smart-daemon:8545
   BIFROST_CHAINS_BSC_BLOCK_SCANNER_RPC_HOST: http://binance-smart-daemon:8545
+
+  # base chain
   BIFROST_CHAINS_BASE_DISABLED: "false"
   # BIFROST_CHAINS_BASE_RPC_HOST: <enter RPC URL>  (example for local daemon: http://base-daemon:8545)
   # BIFROST_CHAINS_BASE_AUTHORIZATION_BEARER: <enter RPC Bearer token if applicable>
   # BIFROST_CHAINS_BASE_USERNAME: <enter RPC username if BasicAuth applicable>
   # BIFROST_CHAINS_BASE_PASSWORD: <enter RPC password if BasicAuth applicable>
+
+  # xrp chain
+  BIFROST_CHAINS_XRP_DISABLED: "true"
 
 # secretEnv allows for setting sensitive custom environment variables in the Bifrost
 # container that are defined in a secret named "bifrost". At the time of writing, this
