@@ -4,7 +4,7 @@ source ./scripts/core.sh
 
 get_node_info_short
 echo "=> Select a THORNode service to reset"
-menu midgard midgard midgard-blockstore binance-smart-daemon thornode gaia-daemon ethereum-daemon-execution ethereum-daemon-beacon avalanche-daemon litecoin-daemon bitcoin-daemon base-daemon
+menu midgard midgard midgard-blockstore binance-smart-daemon thornode gaia-daemon ethereum-daemon-execution ethereum-daemon-beacon avalanche-daemon litecoin-daemon bitcoin-daemon base-daemon xrp-daemon
 SERVICE=${MENU_SELECTED}
 
 if node_exists; then
@@ -97,5 +97,12 @@ case ${SERVICE} in
     kubectl wait --for=delete pods -l app.kubernetes.io/name=base-daemon -n "${NAME}" --timeout=5m >/dev/null 2>&1 || true
     kubectl run -n "${NAME}" -it reset-base --rm --restart=Never --image=busybox --overrides='{"apiVersion": "v1", "spec": {"containers": [{"command": ["sh", "-c", "rm -rf /data/.ethereum"], "name": "reset-base", "stdin": true, "stdinOnce": true, "tty": true, "image": "busybox", "volumeMounts": [{"mountPath": "/data", "name":"data"}]}], "volumes": [{"name": "data", "persistentVolumeClaim": {"claimName": "base-daemon"}}]}}'
     kubectl scale -n "${NAME}" --replicas=1 deploy/base-daemon --timeout=5m
+    ;;
+
+  xrp-daemon)
+    kubectl scale -n "${NAME}" --replicas=0 deploy/xrp-daemon --timeout=5m
+    kubectl wait --for=delete pods -l app.kubernetes.io/name=xrp-daemon -n "${NAME}" --timeout=5m >/dev/null 2>&1 || true
+    kubectl run -n "${NAME}" -it reset-xrp --rm --restart=Never --image=busybox --overrides='{"apiVersion": "v1", "spec": {"containers": [{"command": ["sh", "-c", "rm -rf /var/lib/rippled/db"], "name": "reset-xrp", "stdin": true, "stdinOnce": true, "tty": true, "image": "busybox", "volumeMounts": [{"mountPath": "/var/lib/rippled", "name":"data"}]}], "volumes": [{"name": "data", "persistentVolumeClaim": {"claimName": "xrp-daemon"}}]}}'
+    kubectl scale -n "${NAME}" --replicas=1 deploy/xrp-daemon --timeout=5m
     ;;
 esac
