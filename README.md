@@ -37,8 +37,8 @@ make helm-plugins
 
 ## Deploy tools
 
-To deploy all tools needed, metrics, logs management, Kubernetes Dashboard, run the command below.
-This will run commands: install-prometheus, install-loki, install-metrics, install-dashboard.
+To deploy all tools needed, metrics, logs management, run the command below.
+This will run commands: install-prometheus, install-loki, install-metrics.
 
 ```bash
 make tools
@@ -291,35 +291,6 @@ when deploying a mainnet validator THORNode.
 make destroy-loki
 ```
 
-## Deploy Kubernetes Dashboard
-
-You can also deploy the Kubernetes dashboard to monitor your cluster resources.
-
-```bash
-make install-dashboard
-```
-
-This command will deploy the Kubernetes dashboard chart.
-It can take a while to deploy all the services, usually up to 5 minutes
-depending on resources running your kubernetes cluster.
-
-### Access Dashboard
-
-We have created a make command to automate this task to access the Dashboard from your
-local workstation:
-
-```bash
-make dashboard
-```
-
-Open http://localhost:8000 in your browser.
-
-### Destroy Kubernetes dashboard
-
-```bash
-make destroy-dashboard
-```
-
 ### Alerts
 
 A guide for setting up Prometheus alerts can be found in [Alerting.md](./docs/Alerting.md)
@@ -349,7 +320,6 @@ you know what you are doing and want to run each chart separately (not recommend
 
 - prometheus: Prometheus stack for metrics
 - loki: Loki stack for logs
-- kubernetes-dashboard: Kubernetes dashboard
 
 ### Development
 

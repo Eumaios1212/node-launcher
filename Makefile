@@ -188,20 +188,6 @@ destroy-metrics: ## Uninstall Metrics Server
 	@kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 	@echo
 
-# Deprecation note: removed this as a default install target, and eventually fully
-#   removing it from being part of/maintained in node-launcher.
-install-dashboard: repos ## Install/Update Kubernetes dashboard (deprecated)
-	@echo "=> Installing Kubernetes Dashboard"
-	@helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard
-	@helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard -n kube-system --wait -f ./kubernetes-dashboard/values.yaml
-	@kubectl apply -f ./kubernetes-dashboard/dashboard-admin.yaml
-	@echo
-
-destroy-dashboard: ## Uninstall Kubernetes dashboard
-	@echo "=> Deleting Kubernetes Dashboard"
-	@helm delete kubernetes-dashboard -n kube-system
-	@echo
-
 install-provider: ## Install Thorchain provider
 	@scripts/install-provider.sh
 
@@ -225,16 +211,12 @@ alert-manager: ## Access Alert-Manager UI through port-forward locally
 	@echo Open your browser at http://localhost:9093
 	@kubectl -n prometheus-system port-forward service/prometheus-kube-prometheus-alertmanager 9093
 
-dashboard: ## Access Kubernetes Dashboard UI through port-forward locally
-	@echo Open your browser at http://localhost:8000
-	@kubectl -n kube-system port-forward service/kubernetes-dashboard 8000:443
-
 lint: ## Run linters (development)
 	./scripts/lint.sh
 
 verify-ethereum: ## Verify Ethereum finalized slot state root
 	@./scripts/verify-ethereum.sh
 
-.PHONY: help helm repo pull tools install-loki install-prometheus install-metrics install-dashboard export-state hard-fork destroy-tools destroy-loki destroy-prometheus destroy-metrics prometheus grafana dashboard alert-manager mnemonic update-dependencies reset restart pods deploy update destroy status shell watch logs set-node-keys set-ip-address set-version upgrade-vote pause resume lint verify-ethereum
+.PHONY: help helm repo pull tools install-loki install-prometheus install-metrics export-state hard-fork destroy-tools destroy-loki destroy-prometheus destroy-metrics prometheus grafana alert-manager mnemonic update-dependencies reset restart pods deploy update destroy status shell watch logs set-node-keys set-ip-address set-version upgrade-vote pause resume lint verify-ethereum
 
 .EXPORT_ALL_VARIABLES:
