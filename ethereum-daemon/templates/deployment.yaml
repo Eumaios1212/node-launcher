@@ -39,14 +39,23 @@ spec:
           command:
             - /scripts/init-beacon.sh
 
-      terminationGracePeriodSeconds: 330
+      terminationGracePeriodSeconds: 300 # give time for graceful shutdown
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ .Values.image.eth.name }}:{{ include "daemon.tag" . }}@sha256:{{ .Values.image.eth.hash }}
           imagePullPolicy: IfNotPresent
-          command: [ "sh", "-c", 'geth --syncmode snap --http --http.addr 0.0.0.0 --http.port 8545 --http.api "eth,net,engine,web3,miner,personal,txpool,debug" --http.corsdomain "*" --http.vhosts="*" --authrpc.vhosts="localhost" --authrpc.jwtsecret="/root/jwt.hex"' ]
+          args:
+            - --syncmode=snap
+            - --http
+            - --http.addr=0.0.0.0
+            - --http.port=8545
+            - --http.api=eth,net,engine,web3,miner,personal,txpool,debug
+            - --http.corsdomain=*
+            - --http.vhosts=*
+            - --authrpc.vhosts=localhost
+            - --authrpc.jwtsecret=/root/jwt.hex
           volumeMounts:
             - name: entrypoint
               mountPath: /entrypoint
@@ -61,13 +70,6 @@ spec:
             - name: rpc
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                  - sh
-                  - -c
-                  - "killall5 2 && sleep 300" # SIGINT and give 5m for main process to terminate
           startupProbe:
             failureThreshold: 600
             periodSeconds: 10

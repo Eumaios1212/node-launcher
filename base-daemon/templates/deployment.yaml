@@ -35,7 +35,7 @@ spec:
           command:
             - /scripts/init.sh
 
-      terminationGracePeriodSeconds: 330
+      terminationGracePeriodSeconds: 300 # give time for graceful shutdown
       containers:
         - name: {{ .Chart.Name }}-execution
           image: {{ .Values.image.execution.name }}:{{ .Values.image.execution.tag }}@sha256:{{ .Values.image.execution.hash }}
@@ -70,13 +70,6 @@ spec:
             - name: rpc
               containerPort: 8545
               protocol: TCP
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                  - sh
-                  - -c
-                  - "killall5 2 && sleep 300" # SIGINT and give 10s for main process to terminate
           startupProbe:
             failureThreshold: 600
             periodSeconds: 10
