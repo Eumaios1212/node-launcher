@@ -8,7 +8,7 @@ net: mainnet
 
 image:
   name: xrpllabsofficial/xrpld
-  tag: "v2.4.0"
+  tag: "2.4.0"
   hash: "1b636a71bccf7b08b3771db9c9c98d6e7f74d88ff4d88267b5d9b4afb3190d96"
 
 imagePullSecrets: []
