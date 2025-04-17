@@ -95,8 +95,6 @@ spec:
               value: {{ .Values.peerApi }}
             - name: DEBUG
               value: "{{ .Values.debug }}"
-            - name: HARDFORK_BLOCK_HEIGHT
-              value: "{{ .Values.haltHeight }}"
             - name: NET
               value: {{ include "thornode.net" . }}
             - name: SIGNER_NAME
@@ -118,6 +116,8 @@ spec:
               value: "{{ .Values.statesync.snapshotInterval }}"
             - name: THOR_TENDERMINT_LOG_FORMAT
               value: "json"
+            - name: THOR_COSMOS_EBIFROST_ADDRESS
+              value: 0.0.0.0:{{ include "thornode.ebifrost" . }}
             - name: SIGNER_SEED_PHRASE
               valueFrom:
                 secretKeyRef:
@@ -139,6 +139,9 @@ spec:
               protocol: TCP
             - name: grpc
               containerPort: {{ include "thornode.grpc" . }}
+              protocol: TCP
+            - name: ebifrost
+              containerPort: {{ include "thornode.ebifrost" . }}
               protocol: TCP
             - name: prometheus
               containerPort: 26660

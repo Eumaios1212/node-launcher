@@ -32,6 +32,10 @@ spec:
       port: {{ include "thornode.grpc" . }}
       targetPort: grpc
       protocol: TCP
+    - name: ebifrost
+      port: {{ include "thornode.ebifrost" . }}
+      targetPort: ebifrost
+      protocol: TCP
     - name: prometheus
       port: 26660
       targetPort: prometheus

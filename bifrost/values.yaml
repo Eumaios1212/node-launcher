@@ -55,6 +55,10 @@ thorDaemon:
   mainnet: thornode:27147
   stagenet: thornode:27147
 
+thorEBifrost:
+  mainnet: thornode:50051
+  stagenet: thornode:50051
+
 bitcoinDaemon:
   enabled: true
   mainnet: bitcoin-daemon:8332

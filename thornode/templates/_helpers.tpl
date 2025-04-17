@@ -115,6 +115,17 @@ GRPC Port
 {{- end -}}
 
 {{/*
+Enshrined Bifrost Port
+*/}}
+{{- define "thornode.ebifrost" -}}
+{{- if eq (include "thornode.net" .) "stagenet" -}}
+    {{ .Values.service.port.stagenet.ebifrost}}
+{{- else -}}
+    {{ .Values.service.port.mainnet.ebifrost}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 P2P Port
 */}}
 {{- define "thornode.p2p" -}}

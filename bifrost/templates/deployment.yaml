@@ -93,6 +93,8 @@ spec:
               value: {{ .Values.thorApi }}
             - name: CHAIN_RPC
               value: {{ include "bifrost.thorDaemon" . }}
+            - name: BIFROST_THORCHAIN_CHAIN_EBIFROST
+              value: {{ include "bifrost.thorEBifrost" . }}
             - name: BTC_HOST
               value: {{ include "bifrost.bitcoinDaemon" . }}
             - name: LTC_HOST

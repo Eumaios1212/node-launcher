@@ -95,6 +95,17 @@ Thor daemon
 {{- end -}}
 
 {{/*
+Thor ebifrost
+*/}}
+{{- define "bifrost.thorEBifrost" -}}
+{{- if eq (include "bifrost.net" .) "stagenet" -}}
+    {{ .Values.thorEBifrost.stagenet }}
+{{- else -}}
+    {{ .Values.thorEBifrost.mainnet }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Bitcoin
 */}}
 {{- define "bifrost.bitcoinDaemon" -}}

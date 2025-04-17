@@ -3,7 +3,6 @@ global:
   hash: bb54b27c80b7640fd21ce30c1b6bb7a30ee946bf3fca05fa4d2bfbfdd354ef25
 
 thornode:
-  haltHeight:
   statesync:
     auto: false
     snapshotInterval: 0
