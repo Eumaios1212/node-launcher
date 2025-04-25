@@ -22,8 +22,8 @@ events:
 
   image:
     name: registry.gitlab.com/thorchain/thornode
-    tag: events-mainnet-3.3.0
-    hash: 27d6046fc33f917ae0a5fcc6f9852467cf628d2cecf33d670043bfe2b82ecfe5
+    tag: events-mainnet-3.5.0
+    hash: 11d7cbe16bbbb068b7ff65541204239b7363c00b9dc85b085e4fd1c9b68865a3
 
   pvc:
     size: 1Gi
