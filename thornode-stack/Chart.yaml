@@ -80,3 +80,8 @@ dependencies:
     repository: file://../xrp-daemon
     version: 0.1.0
     condition: xrp-daemon.enabled
+
+  - name: cardano-daemon
+    repository: file://../cardano-daemon
+    version: 0.1.0
+    condition: cardano-daemon.enabled

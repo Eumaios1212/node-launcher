@@ -1,0 +1,90 @@
+# Default values for cardano-daemon.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+net: mainnet
+
+replicaCount: 1
+
+image:
+  name: ghcr.io/intersectmbo/cardano-node
+  tag: 10.2.1
+  hash: aced94ffc594ed66728956569edf80ae52cd411285803a9a89a46c74a896a048
+
+flags:
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "cardano-daemon"
+
+hostNetwork: false
+
+service:
+  type: ClusterIP
+  port:
+    mainnet:
+      n2n: 3001
+      n2c: 7007
+    stagenet:
+      n2n: 3001
+      n2c: 7007
+
+ingress:
+  enabled: false
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: letsencrypt-production
+  hosts:
+    []
+    # - host: midgard.example.com
+    #   paths:
+    #   - path: /
+    #     backend:
+    #       serviceName: gateway
+    #       servicePort: midgard
+  tls:
+    []
+    # - secretName: midgard-tls
+    #   hosts:
+    #     - midgard.example.com
+
+persistence:
+  enabled: true
+  size:
+    mainnet: 250Gi
+    stagenet: 250Gi
+  accessMode: ReadWriteOnce
+  # storageClass: "-"
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources:
+  requests:
+    cpu: 4
+    memory: 30Gi
+  limits:
+    # cpu: 2
+    memory: 40Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+global:
+  images:
+    alpine:
+      tag: latest
+      hash: 4edbd2beb5f78b1014028f4fbb99f3237d9561100b6881aabbf5acce2c4f9454

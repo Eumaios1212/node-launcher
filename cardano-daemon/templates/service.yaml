@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "cardano-daemon.fullname" . }}
+  labels:
+    {{- include "cardano-daemon.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: n2n
+      port: {{ include "cardano-daemon.n2n" . }}
+      targetPort: n2n
+      protocol: TCP
+    - name: n2c
+      port: {{ include "cardano-daemon.n2c" . }}
+      targetPort: n2c
+      protocol: TCP
+  selector:
+    {{- include "cardano-daemon.selectorLabels" . | nindent 4 }}

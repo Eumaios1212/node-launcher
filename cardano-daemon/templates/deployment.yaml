@@ -1,0 +1,134 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cardano-daemon.fullname" . }}
+  labels:
+    {{- include "cardano-daemon.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "cardano-daemon.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        network-policy: external-egress-only
+        {{- include "cardano-daemon.selectorLabels" . | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      serviceAccountName: default
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      {{- if .Values.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
+      initContainers:
+      - name: init
+        image: alpine:{{ .Values.global.images.alpine.tag }}@sha256:{{ .Values.global.images.alpine.hash }}
+        imagePullPolicy: IfNotPresent
+        command:
+          - /scripts/init.sh
+        volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: data
+            mountPath: /data
+      - name: socat
+        image: {{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}
+        imagePullPolicy: IfNotPresent
+        restartPolicy: Always # sidecar container
+        command:
+          - socat
+        args:
+          - TCP-LISTEN:7007,reuseaddr,fork
+          - UNIX-CLIENT:/data/node.socket
+        volumeMounts:
+          - name: data
+            mountPath: /data
+
+      containers:
+      - name: {{ .Chart.Name }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+        image: {{ .Values.image.name }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.hash }}
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - name: data
+            mountPath: /data
+          - name: scripts
+            mountPath: /scripts
+        ports:
+          - name: n2n
+            containerPort: {{ include "cardano-daemon.n2n" . }}
+            protocol: TCP
+          - name: n2c
+            containerPort: {{ include "cardano-daemon.n2c" . }}
+            protocol: TCP
+        args:
+          - run
+        env:
+          - name: CARDANO_TOPOLOGY
+            value: /data/topology.json
+          - name: CARDANO_CONFIG
+            value: /data/config.json
+          - name: CARDANO_DATABASE_PATH
+            value: /data/db
+          - name: CARDANO_SOCKET_PATH
+            value: /data/node.socket
+          - name: CARDANO_PORT
+            value: "3001"
+          - name: CARDANO_BIND_ADDR
+            value: 0.0.0.0
+        startupProbe:
+          failureThreshold: 600  # 5 hours, some forks require long init
+          periodSeconds: 30
+          timeoutSeconds: 10
+          exec:
+            command:
+              - /scripts/probe.sh
+        livenessProbe:
+          timeoutSeconds: 10
+          periodSeconds: 30
+          exec:
+            command:
+              - /scripts/probe.sh
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - name: data
+      {{- if and .Values.persistence.enabled (not .Values.persistence.hostPath) }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "cardano-daemon.fullname" . }}{{- end }}
+      {{- else if and .Values.persistence.enabled .Values.persistence.hostPath }}
+        hostPath:
+          path: {{ .Values.persistence.hostPath }}
+          type: DirectoryOrCreate
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+      - name: scripts
+        configMap:
+          name: {{ include "cardano-daemon.fullname" . }}-scripts
+          defaultMode: 0777
+      {{- with .Values.nodeSelector }}
+      terminationGracePeriodSeconds: 60
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+     

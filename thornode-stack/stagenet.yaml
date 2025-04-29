@@ -43,3 +43,6 @@ base-daemon:
 
 xrp-daemon:
   enabled: false
+
+cardano-daemon:
+  enabled: true

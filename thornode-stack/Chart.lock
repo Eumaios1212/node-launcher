@@ -44,5 +44,8 @@ dependencies:
 - name: xrp-daemon
   repository: file://../xrp-daemon
   version: 0.1.0
-digest: sha256:f0e58b0ac02176515b85f87e6fc874200a0c322301b7e57bb698fe48dab711a8
-generated: "2025-03-05T10:03:51.338267-07:00"
+- name: cardano-daemon
+  repository: file://../cardano-daemon
+  version: 0.1.0
+digest: sha256:d0503d3af13260afa8a7d411d9694dfccf6d136a02a0adfcf2a8b89e1fde80b2
+generated: "2025-04-22T13:54:04.017751-05:00"
