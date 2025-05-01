@@ -1,6 +1,6 @@
 global:
   tag: mainnet-3.5.0
-  hash: 2432393b50bc3397c5bbcaeebfac80522a4fd1b4c4174de5463acb76edd3677d
+  hash: 5e12888a8a5f095d7c0e4169c4ffe97021aa2e1bde4a6ea44ca5d32797fe8efa
 
 thornode:
   statesync:
