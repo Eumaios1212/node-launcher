@@ -163,8 +163,8 @@ securityContext:
 
 resources:
   requests:
-    cpu: 4
-    memory: 3Gi
+    cpu: 1
+    memory: 1Gi
   limits:
     memory: 16Gi
 

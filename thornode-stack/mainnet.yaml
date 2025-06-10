@@ -8,28 +8,28 @@ thornode:
     snapshotInterval: 0
 
 bitcoin-daemon:
-  enabled: true
+  enabled: false
 
 litecoin-daemon:
-  enabled: true
+  enabled: false
 
 bitcoin-cash-daemon:
-  enabled: true
+  enabled: false
 
 ethereum-daemon:
-  enabled: true
+  enabled: false
 
 dogecoin-daemon:
-  enabled: true
+  enabled: false
 
 gaia-daemon:
-  enabled: true
+  enabled: false
 
 avalanche-daemon:
-  enabled: true
+  enabled: false
 
 binance-smart-daemon:
-  enabled: true
+  enabled: false
 
 base-daemon:
   enabled: false

@@ -30,7 +30,7 @@ repos: ## Add Helm repositories for dependencies
 	@helm repo update
 	@echo
 
-tools: install-prometheus install-loki install-metrics ## Intall/Update Prometheus/Grafana, Loki, Metrics Server
+tools: install-prometheus install-metrics ## Intall/Update Prometheus/Grafana, Loki, Metrics Server
 
 pull: ## Git pull node-launcher repository
 	@git clean -idf
